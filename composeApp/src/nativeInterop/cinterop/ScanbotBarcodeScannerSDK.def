@@ -1,0 +1,4 @@
+language = Objective-C
+
+modules = ScanbotBarcodeScannerSDK
+package = ScanbotBarcodeScannerSDK

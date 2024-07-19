@@ -27,6 +27,37 @@ kotlin {
             isStatic = true
         }
     }
+    iosArm64 {
+        val path = "$rootDir/scanbotsdk/ScanbotBarcodeScannerSDK.xcframework/ios-arm64"
+        compilations.getByName("main") {
+            val ScanbotBarcodeScannerSDK by cinterops.creating {
+                defFile("src/nativeInterop/cinterop/ScanbotBarcodeScannerSDK.def")
+                compilerOpts("-F$path", "-framework", "ScanbotBarcodeScannerSDK", "-rpath", path)
+                extraOpts += listOf("-compiler-option", "-fmodules")
+            }
+        }
+        binaries.all {
+            linkerOpts("-framework", "ScanbotBarcodeScannerSDK", "-F$path")
+        }
+    }
+
+    listOf(
+        iosX64(),
+        iosSimulatorArm64()
+    ).forEach {
+        val path =
+            "$rootDir/scanbotsdk/ScanbotBarcodeScannerSDK.xcframework/ios-arm64_x86_64-simulator"
+        it.compilations.getByName("main") {
+            val ScanbotBarcodeScannerSDK by cinterops.creating {
+                defFile("src/nativeInterop/cinterop/ScanbotBarcodeScannerSDK.def")
+                compilerOpts("-F$path", "-framework", "ScanbotBarcodeScannerSDK", "-rpath", path)
+                extraOpts += listOf("-compiler-option", "-fmodules")
+            }
+        }
+        it.binaries.all {
+            linkerOpts("-framework", "ScanbotBarcodeScannerSDK", "-F$path")
+        }
+    }
     
     sourceSets {
         
