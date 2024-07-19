@@ -22,6 +22,8 @@ dependencyResolutionManagement {
                 includeGroupAndSubgroups("androidx")
                 includeGroupAndSubgroups("com.android")
                 includeGroupAndSubgroups("com.google")
+                maven { url = java.net.URI("https://nexus.scanbot.io/nexus/content/repositories/releases/") }
+                maven { url = java.net.URI("https://nexus.scanbot.io/nexus/content/repositories/snapshots/") }
             }
         }
         mavenCentral()
