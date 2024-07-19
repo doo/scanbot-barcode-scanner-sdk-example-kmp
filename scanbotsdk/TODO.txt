@@ -1,0 +1,1 @@
+Put ScanbotBarcodeScannerSDK.xcframework into this folder
