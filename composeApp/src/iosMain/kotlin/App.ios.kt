@@ -19,7 +19,9 @@ actual fun BarcodeScannerNativeView(onBarcodeScanned: OnBarcodeScanned) {
 @Composable
 actual fun initializeScanbot(licenseKey: String) {
     LaunchedEffect(true) {
-        Scanbot.setLicense(licenseKey)
+        if (licenseKey.isNotEmpty()) {
+            Scanbot.setLicense(licenseKey)
+        }
         Scanbot.initialize()
     }
 }

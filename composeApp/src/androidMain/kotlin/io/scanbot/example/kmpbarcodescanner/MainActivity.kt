@@ -1,4 +1,4 @@
-package io.scanbot.kmpbarcodescanner
+package io.scanbot.example.kmpbarcodescanner
 
 import App
 import android.os.Bundle
