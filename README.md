@@ -46,5 +46,5 @@ For more details please refer to the SDK documentation.
 
 
 ## Documentation
-👉 [Scanbot Barcode Scanner SDK for Android documentation](https://docs.scanbot.io/barcode-scanner-sdk/android/introduction/)
-👉 [Scanbot Barcode Scanner SDK for iOS documentation](https://docs.scanbot.io/barcode-scanner-sdk/ios/introduction/)
+- 👉 [Scanbot Barcode Scanner SDK for Android documentation](https://docs.scanbot.io/barcode-scanner-sdk/android/introduction/)
+- 👉 [Scanbot Barcode Scanner SDK for iOS documentation](https://docs.scanbot.io/barcode-scanner-sdk/ios/introduction/)
