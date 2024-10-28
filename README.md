@@ -1,4 +1,4 @@
-# Scanbot Barcode Scanning Example App for Compose Multiplatform
+# Scanbot Barcode Scanner SDK Example App for Kotlin Multiplatform (KMP) with Compose Multiplatform UI framework
 
 This example app shows how to integrate the Scanbot Barcode Scanner SDK for Compose Multiplatform
 
