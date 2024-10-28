@@ -20,11 +20,9 @@ kotlin {
 
     val xcf = XCFramework()
     val frameworkPath = project.file("$rootDir/scanbot_sdk/ScanbotBarcodeScannerSDK.xcframework").absolutePath
-
     val frameworkPathArm64 = "$frameworkPath/ios-arm64/"
     val frameworkPathSimulator = "$frameworkPath/ios-arm64_x86_64-simulator/"
 
-    // Function to configure interop and binary linking
     fun configureScanbotInterop(target: org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget, frameworkPath: String) {
         target.compilations.getByName("main") {
             val coreScanbot by cinterops.creating {
@@ -43,8 +41,8 @@ kotlin {
         iosSimulatorArm64(),
         iosX64()
     ).forEach { target ->
-        val frameworkPath = if (target.name.contains("arm64")) frameworkPathArm64 else frameworkPathSimulator
-        configureScanbotInterop(target, frameworkPath)
+        val currentFrameworkPath = if (target.name.contains("arm64")) frameworkPathArm64 else frameworkPathSimulator
+        configureScanbotInterop(target, currentFrameworkPath)
 
         target.binaries.framework {
             baseName = "ComposeApp"
@@ -52,7 +50,7 @@ kotlin {
             xcf.add(this)
         }
     }
-    
+
     sourceSets {
         androidMain.dependencies {
             implementation(compose.preview)
@@ -66,7 +64,6 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
-
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.navigation.compose)
             implementation(libs.scanbot.sdk.compose.multiplatform)
@@ -110,4 +107,3 @@ android {
         debugImplementation(compose.uiTooling)
     }
 }
-
