@@ -2,9 +2,3 @@ language = Objective-C
 
 modules = ScanbotBarcodeScannerSDK
 package = ScanbotBarcodeScannerSDK
-
-compilerOpts = -framework ScanbotBarcodeScannerSDK
-compilerOpts = -F./
-
-linkerOpts = -framework ScanbotBarcodeScannerSDK
-linkerOpts = -F./

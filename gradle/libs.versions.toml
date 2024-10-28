@@ -8,7 +8,8 @@ compose-plugin = "1.7.0"
 kotlin = "2.1.0-Beta2"
 kotlinxSerializationJson = "1.7.1"
 navigationCompose = "2.8.0-alpha10"
-scanbotSdkComposeMultiplatform = "0.6.0-Beta1"
+scanbotSdkComposeMultiplatform = "0.6.0-SNAPSHOT"
+kotlin_serialization = "2.0.0"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
@@ -22,3 +23,4 @@ androidLibrary = { id = "com.android.library", version.ref = "agp" }
 jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-plugin" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin_serialization" }
