@@ -1,40 +1,18 @@
-import android.app.Application
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.platform.LocalContext
-import io.scanbot.sdk.barcode_scanner.ScanbotBarcodeScannerSDKInitializer
-import io.scanbot.sdk.ui_v2.barcode.BarcodeScannerView
-import io.scanbot.sdk.ui_v2.barcode.configuration.BarcodeNativeConfiguration
-import io.scanbot.sdk.ui_v2.barcode.configuration.BarcodeScannerConfiguration
-import io.scanbot.sdk.ui_v2.barcode.configuration.LocalScanbotNativeConfiguration
+import androidx.compose.ui.tooling.preview.Preview
 
-@Composable
-actual fun BarcodeScannerNativeView(onBarcodeScanned: OnBarcodeScanned) {
-    val configuration = BarcodeScannerConfiguration()
-    CompositionLocalProvider(
-        LocalScanbotNativeConfiguration provides BarcodeNativeConfiguration(
-            enableContinuousScanning = true
-        )
-    ) {
-        BarcodeScannerView(
-            configuration = configuration,
-            onBarcodeScanned = {
-                onBarcodeScanned.onBarcodeScanned(it.items.first().text)
-            },
-            onBarcodeScannerClosed = {
-            }
-        )
+class AppActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+        setContent { App() }
     }
 }
 
+@Preview
 @Composable
-actual fun initializeScanbot(licenseKey: String) {
-    val current = LocalContext.current
-    LaunchedEffect(true) {
-        val application = current.applicationContext as Application
-        ScanbotBarcodeScannerSDKInitializer()
-            .license(application, licenseKey)
-            .initialize(application)
-    }
-}
+fun AppPreview() { App() }
