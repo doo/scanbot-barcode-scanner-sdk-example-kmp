@@ -1,5 +1,6 @@
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -16,15 +17,39 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_11)
         }
     }
-    
+
+    val xcf = XCFramework()
+    val frameworkPath = project.file("$rootDir/scanbot_sdk/ScanbotBarcodeScannerSDK.xcframework").absolutePath
+
+    val frameworkPathArm64 = "$frameworkPath/ios-arm64/"
+    val frameworkPathSimulator = "$frameworkPath/ios-arm64_x86_64-simulator/"
+
+    // Function to configure interop and binary linking
+    fun configureScanbotInterop(target: org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget, frameworkPath: String) {
+        target.compilations.getByName("main") {
+            val coreScanbot by cinterops.creating {
+                defFile("$rootDir/scanbot_sdk/ScanbotBarcodeScannerSDK.def")
+                compilerOpts("-framework", "ScanbotBarcodeScannerSDK", "-F$frameworkPath")
+                extraOpts += listOf("-compiler-option", "-fmodules")
+            }
+        }
+        target.binaries.all {
+            linkerOpts("-framework", "ScanbotBarcodeScannerSDK", "-F$frameworkPath")
+        }
+    }
+
     listOf(
-        iosX64(),
         iosArm64(),
-        iosSimulatorArm64()
-    ).forEach { iosTarget ->
-        iosTarget.binaries.framework {
+        iosSimulatorArm64(),
+        iosX64()
+    ).forEach { target ->
+        val frameworkPath = if (target.name.contains("arm64")) frameworkPathArm64 else frameworkPathSimulator
+        configureScanbotInterop(target, frameworkPath)
+
+        target.binaries.framework {
             baseName = "ComposeApp"
             isStatic = true
+            xcf.add(this)
         }
     }
     

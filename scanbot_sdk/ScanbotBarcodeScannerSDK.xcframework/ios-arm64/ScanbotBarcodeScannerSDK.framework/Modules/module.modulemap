@@ -1,0 +1,16 @@
+framework module ScanbotBarcodeScannerSDK {
+  umbrella header "ScanbotBarcodeScannerSDK.h"
+
+  export *
+  module * { export * }
+  
+  explicit module ScanbotBarcodeScannerSDK_Private {
+      umbrella header "ScanbotBarcodeScannerSDK_Private.h"
+      export *
+  }
+}
+
+module ScanbotBarcodeScannerSDK.Swift {
+  header "ScanbotBarcodeScannerSDK-Swift.h"
+  requires objc
+}
