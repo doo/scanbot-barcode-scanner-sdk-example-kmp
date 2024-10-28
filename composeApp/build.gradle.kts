@@ -1,12 +1,13 @@
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.serialization)
 }
 
 kotlin {
@@ -16,64 +17,56 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_11)
         }
     }
-    
-    listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach { iosTarget ->
-        iosTarget.binaries.framework {
-            baseName = "ComposeApp"
-            isStatic = true
-        }
-    }
-    iosArm64 {
-        val path = "$rootDir/scanbotsdk/ScanbotBarcodeScannerSDK.xcframework/ios-arm64"
-        compilations.getByName("main") {
-            val ScanbotBarcodeScannerSDK by cinterops.creating {
-                defFile("src/nativeInterop/cinterop/ScanbotBarcodeScannerSDK.def")
-                compilerOpts("-F$path", "-framework", "ScanbotBarcodeScannerSDK", "-rpath", path)
+
+    val xcf = XCFramework()
+    val frameworkPath = project.file("$rootDir/scanbot_sdk/ScanbotBarcodeScannerSDK.xcframework").absolutePath
+    val frameworkPathArm64 = "$frameworkPath/ios-arm64/"
+    val frameworkPathSimulator = "$frameworkPath/ios-arm64_x86_64-simulator/"
+
+    fun configureScanbotInterop(target: org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget, frameworkPath: String) {
+        target.compilations.getByName("main") {
+            val coreScanbot by cinterops.creating {
+                defFile("$rootDir/scanbot_sdk/ScanbotBarcodeScannerSDK.def")
+                compilerOpts("-framework", "ScanbotBarcodeScannerSDK", "-F$frameworkPath")
                 extraOpts += listOf("-compiler-option", "-fmodules")
             }
         }
-        binaries.all {
-            linkerOpts("-framework", "ScanbotBarcodeScannerSDK", "-F$path")
+        target.binaries.all {
+            linkerOpts("-framework", "ScanbotBarcodeScannerSDK", "-F$frameworkPath")
         }
     }
 
     listOf(
-        iosX64(),
-        iosSimulatorArm64()
-    ).forEach {
-        val path =
-            "$rootDir/scanbotsdk/ScanbotBarcodeScannerSDK.xcframework/ios-arm64_x86_64-simulator"
-        it.compilations.getByName("main") {
-            val ScanbotBarcodeScannerSDK by cinterops.creating {
-                defFile("src/nativeInterop/cinterop/ScanbotBarcodeScannerSDK.def")
-                compilerOpts("-F$path", "-framework", "ScanbotBarcodeScannerSDK", "-rpath", path)
-                extraOpts += listOf("-compiler-option", "-fmodules")
-            }
-        }
-        it.binaries.all {
-            linkerOpts("-framework", "ScanbotBarcodeScannerSDK", "-F$path")
+        iosArm64(),
+        iosSimulatorArm64(),
+        iosX64()
+    ).forEach { target ->
+        val currentFrameworkPath = if (target.name.contains("arm64")) frameworkPathArm64 else frameworkPathSimulator
+        configureScanbotInterop(target, currentFrameworkPath)
+
+        target.binaries.framework {
+            baseName = "ComposeApp"
+            isStatic = true
+            xcf.add(this)
         }
     }
-    
+
     sourceSets {
-        
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
-            implementation(libs.scanbot.barcode.scanner.sdk)
-            implementation(libs.rtu.ui.v2.barcode)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material)
+            implementation(compose.material3)
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
+            implementation(libs.kotlinx.serialization.json)
+            implementation(libs.navigation.compose)
+            implementation(libs.scanbot.sdk.compose.multiplatform)
         }
     }
 }
@@ -114,4 +107,3 @@ android {
         debugImplementation(compose.uiTooling)
     }
 }
-
