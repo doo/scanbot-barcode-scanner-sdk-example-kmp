@@ -1,0 +1,8 @@
+platform :ios, '16.0'
+
+target 'iosApp' do
+  use_frameworks!
+
+  # Local podspec from path
+  pod 'composeApp', :path => '../composeApp/composeApp.podspec'
+end
