@@ -47,7 +47,7 @@ kotlin {
         }
 
         pod("ScanbotBarcodeScannerSDK") {
-            version = "~> 6.0.1-Beta1"
+            version = "~> 6.0.1-Beta2"
             packageName = "ScanbotBarcodeScannerSDK"
             extraOpts += listOf("-compiler-option", "-fmodules")
         }
