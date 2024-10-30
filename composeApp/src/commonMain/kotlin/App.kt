@@ -1,12 +1,12 @@
 import androidx.compose.runtime.*
 import io.scanbot.sdk.compose.multiplatform.common.ScanbotSdkConfig
-import io.scanbot.sdk.compose.multiplatform.sdk.initializeScanbotSDK
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import io.scanbot.sdk.compose.multiplatform.configuration.BarcodeScannerConfiguration
 import io.scanbot.sdk.compose.multiplatform.configuration.BarcodeScannerResult
+import io.scanbot.sdk.compose.multiplatform.sdk.ScanbotSDK
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.jsonObject
@@ -31,7 +31,7 @@ fun App(
 ) {
     val scanbotSdkConfig = remember { ScanbotSdkConfig() }
 
-    initializeScanbotSDK(scanbotSdkConfig)
+    ScanbotSDK.initialize(scanbotSdkConfig)
 
     NavigationGraph(navController)
 }

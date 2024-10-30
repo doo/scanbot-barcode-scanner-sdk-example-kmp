@@ -10,18 +10,18 @@
 		058557BB273AAA24004C7B11 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557BA273AAA24004C7B11 /* Assets.xcassets */; };
 		058557D9273AAEEB004C7B11 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */; };
 		2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2152FB032600AC8F00CF470E /* iOSApp.swift */; };
-		63EC3A832CCF98050039B68C /* ScanbotBarcodeScannerSDK.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63EC3A822CCF98050039B68C /* ScanbotBarcodeScannerSDK.xcframework */; };
-		63EC3A842CCF98050039B68C /* ScanbotBarcodeScannerSDK.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 63EC3A822CCF98050039B68C /* ScanbotBarcodeScannerSDK.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		63EC3A952CD29A100039B68C /* ScanbotBarcodeScannerSDK.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63EC3A822CCF98050039B68C /* ScanbotBarcodeScannerSDK.xcframework */; };
+		63EC3A962CD29A100039B68C /* ScanbotBarcodeScannerSDK.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 63EC3A822CCF98050039B68C /* ScanbotBarcodeScannerSDK.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		63EC3A852CCF98050039B68C /* Embed Frameworks */ = {
+		63EC3A972CD29A100039B68C /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				63EC3A842CCF98050039B68C /* ScanbotBarcodeScannerSDK.xcframework in Embed Frameworks */,
+				63EC3A962CD29A100039B68C /* ScanbotBarcodeScannerSDK.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -44,7 +44,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				63EC3A832CCF98050039B68C /* ScanbotBarcodeScannerSDK.xcframework in Frameworks */,
+				63EC3A952CD29A100039B68C /* ScanbotBarcodeScannerSDK.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -116,7 +116,7 @@
 				7555FF77242A565900829871 /* Sources */,
 				B92378962B6B1156000C7307 /* Frameworks */,
 				7555FF79242A565900829871 /* Resources */,
-				63EC3A852CCF98050039B68C /* Embed Frameworks */,
+				63EC3A972CD29A100039B68C /* Embed Frameworks */,
 			);
 			buildRules = (
 			);

@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.dp
 import io.scanbot.sdk.compose.multiplatform.configuration.BarcodeScannerConfiguration
 import io.scanbot.sdk.compose.multiplatform.detectors.detectBarcodesFromImageBitmap
 import io.scanbot.sdk.compose.multiplatform.picker.rememberGalleryManager
-import io.scanbot.sdk.compose.multiplatform.sdk.getLicenseStatus
+import io.scanbot.sdk.compose.multiplatform.sdk.ScanbotSDK
 import use_cases.actionBarConfigSnippet
 import use_cases.arOverlayUseCaseSnippet
 import use_cases.findAndPickModeUseCaseSnippet
@@ -155,7 +155,7 @@ private fun DisplayScanbotLicenseStatus() {
     var isStatusRequested by remember { mutableStateOf(false) }
 
     if (isStatusRequested) {
-        licenseStatus = getLicenseStatus().status.toString()
+        licenseStatus = ScanbotSDK.getLicenseStatus().status?.toString()
         isStatusRequested = false
     }
 
