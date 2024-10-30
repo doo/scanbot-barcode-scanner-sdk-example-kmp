@@ -155,7 +155,7 @@ private fun DisplayScanbotLicenseStatus() {
     var isStatusRequested by remember { mutableStateOf(false) }
 
     if (isStatusRequested) {
-        licenseStatus = ScanbotSDK.getLicenseStatus().status.toString()
+        licenseStatus = ScanbotSDK.getLicenseStatus().status?.toString()
         isStatusRequested = false
     }
 

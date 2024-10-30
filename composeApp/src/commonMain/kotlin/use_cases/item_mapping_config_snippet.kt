@@ -8,10 +8,10 @@ import io.scanbot.sdk.compose.multiplatform.configuration.internal.BarcodeItemMa
 
 fun itemMappingSnippet() : BarcodeScannerConfiguration {
     // Create the default configuration object.
-    var configuration = BarcodeScannerConfiguration();
+    val configuration = BarcodeScannerConfiguration();
 
     // Initialize the use case for single scanning.
-    var scanningMode = MultipleScanningMode();
+    val scanningMode = MultipleScanningMode();
 
     val mappingFunction: (BarcodeItem) -> BarcodeMappedData = ::mapBarcodeItemToMappedData
     scanningMode.barcodeInfoMapping.barcodeItemMapper = BarcodeItemMapper(mappingFunction, null)
@@ -23,5 +23,5 @@ fun itemMappingSnippet() : BarcodeScannerConfiguration {
 }
 
 fun mapBarcodeItemToMappedData(barcodeItem: BarcodeItem): BarcodeMappedData {
-    return BarcodeMappedData("test", "test123", "")
+    return BarcodeMappedData(title = "TestTitle", subtitle = "TestSubtitle", barcodeImage = "")
 }
