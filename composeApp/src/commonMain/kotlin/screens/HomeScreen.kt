@@ -1,20 +1,21 @@
 package screens
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.material3.OutlinedButton
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.TextButton
+import androidx.compose.material3.ColorScheme
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -25,8 +26,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.text.style.TextAlign
 import io.scanbot.sdk.compose.multiplatform.configuration.BarcodeScannerConfiguration
 import io.scanbot.sdk.compose.multiplatform.detectors.detectBarcodesFromImageBitmap
 import io.scanbot.sdk.compose.multiplatform.picker.rememberGalleryManager
@@ -41,26 +42,51 @@ import use_cases.singleScanningUseCaseSnippet
 import use_cases.topBarConfigSnippet
 import use_cases.userGuidanceConfigSnippet
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     onNavigateToScanner: (BarcodeScannerConfiguration) -> Unit,
     backgroundColor: Color = Color.White
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(backgroundColor)
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        ConfigurationButtons { configuration ->
-            onNavigateToScanner(configuration)
-        }
+    MaterialTheme(colorScheme = exampleColorScheme()) {
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        titleContentColor = MaterialTheme.colorScheme.primaryContainer,
+                    ),
+                    title = {
+                        Text("Scanbot Barcode Scanner SDK")
+                    }
+                )
+            },
+        ) { innerPadding ->
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(backgroundColor)
+                    .verticalScroll(rememberScrollState())
+                    .padding(innerPadding),
+            ) {
+                ConfigurationButtons { configuration ->
+                    onNavigateToScanner(configuration)
+                }
 
-        DetectBarcodesFromImage()
-        DisplayScanbotLicenseStatus()
+                DetectBarcodesFromImage()
+                DisplayScanbotLicenseStatus()
+            }
+        }
     }
+}
+
+private fun exampleColorScheme(): ColorScheme {
+    val scanbotColor = Color(0xFFC8193C)
+    return lightColorScheme(
+        primary = scanbotColor,
+        secondary = scanbotColor,
+        primaryContainer = Color(Color.White.toArgb()),
+    )
 }
 
 @Composable
@@ -69,10 +95,10 @@ private fun ConfigurationButtons(
 ) {
     val operations = remember {
         listOf(
-            "AR Overlay" to { onConfigurationSelected(arOverlayUseCaseSnippet()) },
             "Single Scanning" to { onConfigurationSelected(singleScanningUseCaseSnippet()) },
             "Multiple Scanning" to { onConfigurationSelected(multipleScanningUseCaseSnippet()) },
             "Find and Pick Mode" to { onConfigurationSelected(findAndPickModeUseCaseSnippet()) },
+            "AR Overlay" to { onConfigurationSelected(arOverlayUseCaseSnippet()) },
             "Palette Config" to { onConfigurationSelected(paletteConfigSnippet()) },
             "Top Bar Config" to { onConfigurationSelected(topBarConfigSnippet()) },
             "User Guidance Config" to { onConfigurationSelected(userGuidanceConfigSnippet()) },
@@ -81,23 +107,15 @@ private fun ConfigurationButtons(
         )
     }
 
-    LazyColumn(
+    Column(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.Start,
-        verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        items(operations) { (label, action) ->
-            OutlinedButton(
-                modifier = Modifier.fillMaxWidth(),
-                shape = RectangleShape,
-                onClick = action,
-            ) {
-                Text(
-                    text = label,
-                    color = Color.Red,
-                    modifier = Modifier.align(Alignment.CenterVertically)
-                )
-            }
+        operations.forEach { (label, action) ->
+            DemoButton(
+                text = label,
+                onClick = action
+            )
         }
     }
 }
@@ -127,25 +145,12 @@ private fun DetectBarcodesFromImage() {
     }
 
     Column {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .horizontalScroll(rememberScrollState()),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            OutlinedButton(
-                shape = RectangleShape,
-                onClick = { launchGallery = true }) {
-                Text(
-                    color = Color.Red,
-                    text = "Pick & Detect from Image")
-            }
-        }
-        Spacer(modifier = Modifier.height(8.dp))
+        DemoButton(
+            text = "Pick & Detect from Image"
+        ) { launchGallery = true }
         barcodeResult?.let {
             Text(text = "Barcode Result: $it")
         }
-        Spacer(modifier = Modifier.height(8.dp))
     }
 }
 
@@ -160,30 +165,27 @@ private fun DisplayScanbotLicenseStatus() {
     }
 
     Column {
-        Spacer(modifier = Modifier.height(40.dp))
         licenseStatus?.let {
             Text(
-                color = Color.Red,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth(),
                 text = "License Status: $it"
             )
         }
-        Spacer(modifier = Modifier.height(8.dp))
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .horizontalScroll(rememberScrollState()),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            OutlinedButton(
-                shape = RectangleShape,
-                onClick = {
-                isStatusRequested = true
-            }) {
-                Text(
-                    color = Color.Red,
-                    text = "Get License Status"
-                )
-            }
+        DemoButton("Get License Status") {
+            isStatusRequested = true
         }
+    }
+}
+
+@Composable
+private fun DemoButton(text: String, onClick: () -> Unit) {
+    TextButton(
+        onClick = onClick,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Text(
+            text = text
+        )
     }
 }
