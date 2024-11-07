@@ -3,7 +3,7 @@ package screens
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -23,14 +23,11 @@ fun BarcodeScannerScreen(
 ) {
     var serializedResult by remember { mutableStateOf<String?>(null) }
 
-    // Derived state to trigger `onScanComplete` only when `serializedResult` changes
-    val resultToSend by remember {
-        derivedStateOf { serializedResult }
-    }
-
-    resultToSend?.let { result ->
-        onScanComplete(result)
-        serializedResult = null // Reset the result after sending
+    LaunchedEffect(serializedResult) {
+        serializedResult?.let { result ->
+            onScanComplete(result)
+            serializedResult = null
+        }
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
