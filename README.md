@@ -6,15 +6,20 @@ This example app shows how to integrate the Scanbot Barcode Scanner SDK for Comp
 
 Scanbot Barcode Scanner SDK is a simple to use high level API, providing a collection of classes and functions for scanning and parsing 1D and 2D barcodes from your mobile device's camera or other image sources like your photo library.
 
-## Requirements
+## How to run this app
 
-You need to download and add the latest `ScanbotBarcodeScannerSDK` XCFramework to example app. Run the following commands in the project root directory:
+Ensure your environment is configured to run Kotlin Multiplatform applications. For setup instructions, see [**this guide**](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-setup.html).
+
+To download and add the latest `ScanbotBarcodeScannerSDK` XCFramework to the example app, run the following commands in the project root directory:
 
 ```bash
 cd scripts
 ./setup_iosApp.sh
 ```
-or follow the manual [setup guide](https://docs.scanbot.io/barcode-scanner-sdk/compose/detailed-setup-guide/installation/#ios) for iOS.
+
+Alternatively, you can follow the [manual setup guide](https://docs.scanbot.io/barcode-scanner-sdk/compose/detailed-setup-guide/installation/#ios) for iOS.
+
+Open the project in Android Studio and run it on Android/iOS.
 
 ## Trial License
 
