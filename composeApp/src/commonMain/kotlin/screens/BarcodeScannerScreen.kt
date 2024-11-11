@@ -14,14 +14,17 @@ import io.scanbot.sdk.compose.multiplatform.configuration.BarcodeScannerConfigur
 import io.scanbot.sdk.compose.multiplatform.configuration.BarcodeScannerResult
 import io.scanbot.sdk.compose.multiplatform.scanner.BarcodeScannerView
 import io.scanbot.sdk.compose.multiplatform.scanner.IBarcodeScannerViewOperations
+import use_cases.UseCaseSnippet
+import use_cases.getBarcodeScannerConfigurationFrom
 
 @Composable
 fun BarcodeScannerScreen(
-    configuration: BarcodeScannerConfiguration,
+    useCaseSnippet: UseCaseSnippet,
     onScanComplete: (String) -> Unit,
     onScannerClosed: () -> Unit,
 ) {
     var serializedResult by remember { mutableStateOf<String?>(null) }
+    val barcodeScannerConfiguration by remember { mutableStateOf(getBarcodeScannerConfigurationFrom(useCaseSnippet)) }
 
     LaunchedEffect(serializedResult) {
         serializedResult?.let { result ->
@@ -32,7 +35,7 @@ fun BarcodeScannerScreen(
 
     Column(modifier = Modifier.fillMaxSize()) {
         BarcodeContent(
-            configuration = configuration,
+            configuration = barcodeScannerConfiguration,
             onBarcodeScanned = { barcodes ->
                 val result = BarcodeScannerResult(items = barcodes.orEmpty())
                 serializedResult = result.toJson().toString()

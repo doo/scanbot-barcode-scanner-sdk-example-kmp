@@ -32,6 +32,7 @@ import io.scanbot.sdk.compose.multiplatform.configuration.BarcodeScannerConfigur
 import io.scanbot.sdk.compose.multiplatform.detectors.detectBarcodesFromImageBitmap
 import io.scanbot.sdk.compose.multiplatform.picker.rememberGalleryManager
 import io.scanbot.sdk.compose.multiplatform.sdk.ScanbotSDK
+import use_cases.UseCaseSnippet
 import use_cases.actionBarConfigSnippet
 import use_cases.arOverlayUseCaseSnippet
 import use_cases.findAndPickModeUseCaseSnippet
@@ -45,7 +46,7 @@ import use_cases.userGuidanceConfigSnippet
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    onNavigateToScanner: (BarcodeScannerConfiguration) -> Unit,
+    onNavigateToScanner: (UseCaseSnippet) -> Unit,
     backgroundColor: Color = Color.White
 ) {
     MaterialTheme(colorScheme = exampleColorScheme()) {
@@ -91,19 +92,19 @@ private fun exampleColorScheme(): ColorScheme {
 
 @Composable
 private fun ConfigurationButtons(
-    onConfigurationSelected: (BarcodeScannerConfiguration) -> Unit,
+    onConfigurationSelected: (UseCaseSnippet) -> Unit,
 ) {
     val operations = remember {
         listOf(
-            "Single Scanning" to { onConfigurationSelected(singleScanningUseCaseSnippet()) },
-            "Multiple Scanning" to { onConfigurationSelected(multipleScanningUseCaseSnippet()) },
-            "Find and Pick Mode" to { onConfigurationSelected(findAndPickModeUseCaseSnippet()) },
-            "AR Overlay" to { onConfigurationSelected(arOverlayUseCaseSnippet()) },
-            "Palette Config" to { onConfigurationSelected(paletteConfigSnippet()) },
-            "Top Bar Config" to { onConfigurationSelected(topBarConfigSnippet()) },
-            "User Guidance Config" to { onConfigurationSelected(userGuidanceConfigSnippet()) },
-            "Action Bar Config" to { onConfigurationSelected(actionBarConfigSnippet()) },
-            "Item Mapping Config" to { onConfigurationSelected(itemMappingSnippet()) }
+            "Single Scanning" to { onConfigurationSelected(UseCaseSnippet.SingleScanning) },
+            "Multiple Scanning" to { onConfigurationSelected(UseCaseSnippet.MultiScanningPreview) },
+            "Find and Pick Mode" to { onConfigurationSelected(UseCaseSnippet.FindAndPick) },
+            "AR Overlay" to { onConfigurationSelected(UseCaseSnippet.AROverlay) },
+            "Palette Config" to { onConfigurationSelected(UseCaseSnippet.Palette) },
+            "Top Bar Config" to { onConfigurationSelected(UseCaseSnippet.TopBar) },
+            "User Guidance Config" to { onConfigurationSelected(UseCaseSnippet.UserGuidance) },
+            "Action Bar Config" to { onConfigurationSelected(UseCaseSnippet.ActionBar) },
+            "Item Mapping Config" to { onConfigurationSelected(UseCaseSnippet.ItemMapping) }
         )
     }
 

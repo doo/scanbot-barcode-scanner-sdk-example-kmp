@@ -14,6 +14,7 @@ import kotlinx.serialization.json.jsonObject
 import screens.BarcodeScannerScreen
 import screens.HomeScreen
 import screens.ResultScreen
+import use_cases.UseCaseSnippet
 
 object ScanbotConfigs {
     /**
@@ -32,7 +33,7 @@ object Home
 
 @Serializable
 data class BarcodeScanner(
-    var scannerConfiguration: String
+    var useCaseSnippet: String
 )
 
 @Serializable
@@ -63,17 +64,15 @@ fun NavigationGraph(navController: NavHostController) {
         startDestination = Home
     ) {
         composable<Home> {
-            HomeScreen(onNavigateToScanner = { config ->
-                val configJson = config.toJson().toString()
-                navController.navigate(BarcodeScanner(configJson))
+            HomeScreen(onNavigateToScanner = { useCaseSnippet ->
+                navController.navigate(BarcodeScanner(useCaseSnippet.toString()))
             })
         }
 
         composable<BarcodeScanner> { backStackEntry ->
-            backStackEntry.arguments?.getString("scannerConfiguration")?.let {
-                val configuration = parseBarcodeScannerConfiguration(it)
+            backStackEntry.arguments?.getString("useCaseSnippet")?.let {
                 BarcodeScannerScreen(
-                    configuration = configuration,
+                    useCaseSnippet = UseCaseSnippet.valueOf(it),
                     onScanComplete = { result ->
                         navController.navigate(ScannerResult(result))
                     },
@@ -97,10 +96,6 @@ fun NavigationGraph(navController: NavHostController) {
             }
         }
     }
-}
-
-fun parseBarcodeScannerConfiguration(json: String): BarcodeScannerConfiguration {
-    return BarcodeScannerConfiguration(Json.parseToJsonElement(json).jsonObject)
 }
 
 fun parseBarcodeScannerResult(json: String): BarcodeScannerResult {
