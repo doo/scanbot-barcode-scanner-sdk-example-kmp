@@ -50,7 +50,7 @@ fun findAndPickModeUseCaseSnippet() : BarcodeScannerConfiguration{
             title = "value barcode",
             image = "https://avatars.githubusercontent.com/u/1454920",
             count =  3),
-    )
+    ) // WARNING: All web links will not work without internet permission. Enable it by uncommenting in AndroidManifest.xml.
 
     configuration.useCase = scanningMode;
 
