@@ -6,7 +6,7 @@ import io.scanbot.sdk.compose.multiplatform.configuration.CollapsedVisibleHeight
 import io.scanbot.sdk.compose.multiplatform.configuration.MultipleScanningMode
 import io.scanbot.sdk.compose.multiplatform.configuration.SheetMode
 
-fun multipleScanningPreviewConfigSnippet() {
+fun multipleScanningPreviewConfigSnippet() : BarcodeScannerConfiguration {
     // Create the default configuration object.
     val configuration = BarcodeScannerConfiguration()
 
@@ -28,4 +28,5 @@ fun multipleScanningPreviewConfigSnippet() {
     configuration.useCase = scanningMode
 
     // Configure other parameters as needed.
+    return configuration;
 }
