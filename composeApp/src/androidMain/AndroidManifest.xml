@@ -5,7 +5,9 @@
         android:name="android.hardware.camera"
         android:required="false" />
     <uses-permission android:name="android.permission.CAMERA" />
-<!--    <uses-permission android:name="android.permission.INTERNET" />-->
+
+    <!-- TODO: If you want to load data from the internet in the ItemMapper or FindAndPick use cases, uncomment the line below -->
+    <!-- <uses-permission android:name="android.permission.INTERNET" /> -->
 
     <application
         android:allowBackup="true"
