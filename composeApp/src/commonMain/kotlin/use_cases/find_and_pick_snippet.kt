@@ -43,12 +43,12 @@ fun findAndPickModeUseCaseSnippet() : BarcodeScannerConfiguration{
         ExpectedBarcode(
             barcodeValue = "123456",
             title = "numeric barcode",
-            image = "https://avatars.githubusercontent.com/u/1454920",
+            image = "", // https://avatars.githubusercontent.com/u/1454920 for testing
             count =  4),
         ExpectedBarcode(
             barcodeValue = "SCANBOT",
             title = "value barcode",
-            image = "https://avatars.githubusercontent.com/u/1454920",
+            image = "", // https://avatars.githubusercontent.com/u/1454920 for testing
             count =  3),
     ) // WARNING: All web links will not work without internet permission. Enable it by uncommenting in AndroidManifest.xml.
 
