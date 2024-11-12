@@ -8,7 +8,7 @@ compose-plugin = "1.7.0"
 kotlin = "2.1.0-Beta2"
 kotlinxSerializationJson = "1.7.1"
 navigationCompose = "2.8.0-alpha10"
-scanbotSdkComposeMultiplatform = "6.0.0.4-SNAPSHOT"
+scanbotSdkComposeMultiplatform = "6.0.0.5-SNAPSHOT"
 kotlin_serialization = "2.0.0"
 
 [libraries]
