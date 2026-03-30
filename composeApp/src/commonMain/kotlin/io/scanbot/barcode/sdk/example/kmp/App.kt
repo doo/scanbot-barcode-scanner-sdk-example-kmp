@@ -19,7 +19,7 @@ fun App() {
             )
 
             ScanbotSDK.initialize(config).onSuccess { licenseInfo ->
-                print("Scanbot SDK initialized successfully. License status: ${licenseInfo.status}")
+                println("Scanbot SDK initialized successfully. License status: ${licenseInfo.status}")
             }.onFailure { error ->
                 println("Error initializing Scanbot SDK: ${error.message}")
             }

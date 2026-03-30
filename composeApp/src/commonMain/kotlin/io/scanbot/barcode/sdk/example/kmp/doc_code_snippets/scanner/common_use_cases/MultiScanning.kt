@@ -15,7 +15,7 @@ import io.scanbot.sdk.kmp.ui_v2.barcode.configuration.MultipleScanningMode
 import io.scanbot.sdk.kmp.ui_v2.barcode.configuration.SheetMode
 import io.scanbot.sdk.kmp.ui_v2.common.ScanbotColor
 
-fun rtuUiMutliScanningUseCase(): BarcodeScannerScreenConfiguration {
+fun rtuUiMultiScanningUseCase(): BarcodeScannerScreenConfiguration {
     // Create configuration object.
     val configuration = BarcodeScannerScreenConfiguration().apply {
 
@@ -52,7 +52,7 @@ fun startMultiScanning(
     onErrorHandler: (error: Throwable) -> Unit
 ) {
     ScanbotSDK.barcode.startScanner(
-        configuration = rtuUiMutliScanningUseCase(), onResult = { result ->
+        configuration = rtuUiMultiScanningUseCase(), onResult = { result ->
             result.onSuccess {
                 onResultHandler(it)
             }.onFailure {

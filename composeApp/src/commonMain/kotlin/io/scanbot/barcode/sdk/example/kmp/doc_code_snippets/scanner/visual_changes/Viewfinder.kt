@@ -11,7 +11,7 @@ import io.scanbot.sdk.kmp.ui_v2.common.configuration.FinderStyle
 */
 
 // @Tag("Viewfinder")
-fun rtuUiviewFinderConfiguration() {
+fun rtuUiViewFinderConfiguration() {
     val config = BarcodeScannerScreenConfiguration().apply {
         viewFinder.visible = true // Show the view finder
         viewFinder.aspectRatio = AspectRatio(16.0, 9.0) // Set the aspect ratio of the view finder

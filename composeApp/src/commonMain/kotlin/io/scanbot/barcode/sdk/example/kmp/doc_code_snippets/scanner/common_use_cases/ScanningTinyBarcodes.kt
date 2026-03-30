@@ -14,7 +14,7 @@ fun scanTinyBarcodes() {
     val config = BarcodeScannerScreenConfiguration();
 
     // Enable locking the focus at the minimum possible distance.
-    config.cameraConfiguration.minFocusDistanceLock = true;
+    config.cameraConfiguration.minFocusDistanceLock = true
 
     // Configure other parameters as needed.
 

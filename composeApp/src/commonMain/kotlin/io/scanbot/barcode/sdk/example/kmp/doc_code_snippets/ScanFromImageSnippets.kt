@@ -2,7 +2,9 @@ package io.scanbot.barcode.sdk.example.kmp.doc_code_snippets
 
 import io.scanbot.sdk.kmp.ScanbotSDK
 import io.scanbot.sdk.kmp.barcode.BarcodeScannerConfiguration
+import io.scanbot.sdk.kmp.barcode.BarcodeScannerResult
 import io.scanbot.sdk.kmp.image.ImageRef
+import io.scanbot.sdk.kmp.utils.Result
 
 fun scanBarcodeFromImage(imageRef: ImageRef) {
 // @Tag("Detecting barcodes")
@@ -23,7 +25,7 @@ fun scanBarcodeFromImage(imageRef: ImageRef) {
 // @EndTag("Detecting barcodes")
 }
 
-fun scanBarcodeFromImageWithResult(imageRef: ImageRef): String? {
+fun scanBarcodeFromImageWithResult(imageRef: ImageRef): Result<BarcodeScannerResult> {
 // @Tag("Detecting barcodes with result")
     val configuration = BarcodeScannerConfiguration()
     // Configure other parameters as needed.
@@ -31,12 +33,6 @@ fun scanBarcodeFromImageWithResult(imageRef: ImageRef): String? {
     return ScanbotSDK.barcode.scanFromImage(
         image = imageRef,
         configuration = configuration
-    ).fold(onSuccess = { barcodeData ->
-        barcodeData.barcodes.joinToString("\n-------------------\n") {
-            "${it.format.name}: ${it.text}"
-        }
-    }, onFailure = {
-        it.message
-    })
+    )
 // @EndTag("Detecting barcodes with result")
 }

@@ -23,6 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -46,34 +47,28 @@ fun BarcodeCustomUIScreen(
     var barcodes by remember {
         mutableStateOf<List<BarcodeItem>>(emptyList())
     }
-    var flashEnabled by remember { mutableStateOf(false) }
-    var detectionEnabled by remember { mutableStateOf(true) }
-    var showPolygon by remember { mutableStateOf(true) }
+    var flashEnabled by rememberSaveable { mutableStateOf(false) }
 
-    val selectionOverlay by remember(showPolygon) {
-        mutableStateOf(
-            SelectionOverlay(
-                overlayEnabled = showPolygon
-            )
+    val selectionOverlay = remember {
+        SelectionOverlay(
+            overlayEnabled = true
         )
     }
 
-    var finderConfiguration by remember {
-        mutableStateOf(
-            FinderViewConfiguration(
-                enabled = true,
-                lineWidth = 3,
-                lineColor = ScanbotColor("#2196F3"),
-                backgroundColor = ScanbotColor("#33000000"),
-            )
+    var finderEnabled by rememberSaveable { mutableStateOf(true) }
+
+    val finderConfiguration = remember(finderEnabled) {
+        FinderViewConfiguration(
+            enabled = finderEnabled,
+            lineWidth = 3,
+            lineColor = ScanbotColor("#2196F3"),
+            backgroundColor = ScanbotColor("#33000000"),
         )
     }
 
-    val scannerConfiguration by remember {
-        mutableStateOf(
-            BarcodeScannerConfiguration(
-                engineMode = BarcodeScannerEngineMode.NEXT_GEN, returnBarcodeImage = true
-            )
+    val scannerConfiguration = remember {
+        BarcodeScannerConfiguration(
+            engineMode = BarcodeScannerEngineMode.NEXT_GEN, returnBarcodeImage = true
         )
     }
 
@@ -89,18 +84,15 @@ fun BarcodeCustomUIScreen(
                             flashEnabled = !flashEnabled
                         }) {
                         Icon(
-                            imageVector = if (flashEnabled) Icons.Default.FlashOn
-                            else Icons.Default.FlashOff, contentDescription = null
+                            imageVector = if (flashEnabled) Icons.Default.FlashOff
+                            else Icons.Default.FlashOn, contentDescription = null
                         )
                     }
 
                     IconButton(
-                        onClick = {
-                            finderConfiguration =
-                                finderConfiguration.copy(enabled = !finderConfiguration.enabled)
-                        }) {
+                        onClick = { finderEnabled = !finderEnabled }) {
                         Icon(
-                            imageVector = if (finderConfiguration.enabled) Icons.Outlined.LocationDisabled
+                            imageVector = if (finderEnabled) Icons.Outlined.LocationDisabled
                             else Icons.Outlined.LocationSearching, contentDescription = null
                         )
                     }
@@ -113,7 +105,7 @@ fun BarcodeCustomUIScreen(
             BarcodeScannerView(
                 modifier = Modifier.fillMaxWidth().weight(1f),
                 configuration = BarcodeCameraConfiguration(
-                    detectionEnabled = detectionEnabled,
+                    detectionEnabled = true,
                     flashEnabled = flashEnabled,
                     cameraZoomFactor = 0.01f,
                     scannerConfiguration = scannerConfiguration,

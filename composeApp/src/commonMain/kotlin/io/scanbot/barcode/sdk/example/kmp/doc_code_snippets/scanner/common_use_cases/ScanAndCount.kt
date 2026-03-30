@@ -54,7 +54,7 @@ fun rtuUiScanAndCountUseCase(): BarcodeScannerScreenConfiguration {
                 val subtitle = item.format.name
 
                 // If image from URL is used, INTERNET permission is required.
-                val image = "https://www.rawpixel.com/search/png%20free"
+                val image = "https://avatars.githubusercontent.com/u/1454920"
 
                 // Call onError() in case of error during obtaining mapped data.
                 if (item.text == "Error occurred!") {

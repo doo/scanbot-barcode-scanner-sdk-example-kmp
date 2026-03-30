@@ -26,8 +26,6 @@ fun basicInitialization() {
         // Handle initialization error
         println("SDK initialization failed: ${error.message}")
     }
-
-    ScanbotSDK.initialize(configuration)
     // @EndTag("Basic initialization")
 }
 

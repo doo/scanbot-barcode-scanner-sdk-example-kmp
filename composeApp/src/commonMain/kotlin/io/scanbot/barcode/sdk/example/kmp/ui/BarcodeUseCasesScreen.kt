@@ -1,12 +1,21 @@
 package io.scanbot.barcode.sdk.example.kmp.ui
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Card
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -17,6 +26,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import dev.icerock.moko.permissions.Permission
 import dev.icerock.moko.permissions.camera.CAMERA
 import dev.icerock.moko.permissions.compose.BindEffect
@@ -36,6 +46,8 @@ import io.scanbot.barcode.sdk.example.kmp.ui.common.LicenseGuard
 import io.scanbot.barcode.sdk.example.kmp.ui.common.LicenseInfoDialog
 import io.scanbot.barcode.sdk.example.kmp.ui.common.MenuItem
 import io.scanbot.barcode.sdk.example.kmp.ui.common.TopBar
+import io.scanbot.sdk.kmp.barcode.BarcodeItem
+import io.scanbot.sdk.kmp.barcode.BarcodeScannerResult
 import io.scanbot.sdk.kmp.ui_v2.barcode.configuration.BarcodeScannerUiResult
 import kotlinx.coroutines.launch
 
@@ -44,7 +56,7 @@ fun BarcodeUseCasesScreen(
     onResultPreview: (BarcodeScannerUiResult) -> Unit,
     navigateToBarcodeCustomUI: () -> Unit,
 ) {
-    var scanFromImageResult by remember { mutableStateOf<String?>(null) }
+    var scanFromImageResult by remember { mutableStateOf<BarcodeScannerResult?>(null) }
     var useCaseError by remember { mutableStateOf<Throwable?>(null) }
     val coroutineScope = rememberCoroutineScope()
 
@@ -128,7 +140,11 @@ fun BarcodeUseCasesScreen(
             if (showGalleryPicker) {
                 GalleryPicker(allowMultiple = false, onImagesSelected = { images ->
                     showGalleryPicker = false
-                    scanFromImageResult = scanBarcodeFromImageWithResult(images.first())
+                    scanBarcodeFromImageWithResult(images.first()).onSuccess {
+                        scanFromImageResult = it
+                    }.onFailure {
+                        useCaseError = it
+                    }
                 }, onDismiss = { showGalleryPicker = false })
             }
 
@@ -136,15 +152,56 @@ fun BarcodeUseCasesScreen(
                 LicenseInfoDialog(onDismiss = { showLicenseDialog = false })
             }
 
-            scanFromImageResult?.let {
-                InfoDialog(
-                    title = "Scanned Result:",
-                    text = it,
-                    onDismiss = { scanFromImageResult = null })
+            scanFromImageResult?.let { result ->
+                ImageScanningResult(result.barcodes, onDismiss = { scanFromImageResult = null })
             }
 
             useCaseError?.let {
                 ErrorDialog(message = it.message, onDismiss = { useCaseError = null })
+            }
+        }
+    }
+}
+
+@Composable
+fun ImageScanningResult(barcodeItems: List<BarcodeItem>, onDismiss: () -> Unit) {
+    if (barcodeItems.isEmpty()) {
+        InfoDialog(
+            title = "No barcodes found",
+            text = "No barcodes were detected in the selected image.",
+            onDismiss = onDismiss
+        )
+    } else {
+        Dialog(onDismissRequest = onDismiss) {
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                shape = RoundedCornerShape(16.dp),
+            ) {
+                Text(
+                    "Scanned Barcodes",
+                    modifier = Modifier.padding(16.dp),
+                    style = MaterialTheme.typography.titleLarge
+                )
+
+                BarcodeItemsPreview(
+                    modifier = Modifier
+                        .heightIn(max = 350.dp), items = barcodeItems
+                )
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.End,
+                ) {
+                    TextButton(
+                        onClick = onDismiss,
+                        modifier = Modifier.padding(8.dp)
+                    ) {
+                        Text("Close")
+                    }
+                }
             }
         }
     }
