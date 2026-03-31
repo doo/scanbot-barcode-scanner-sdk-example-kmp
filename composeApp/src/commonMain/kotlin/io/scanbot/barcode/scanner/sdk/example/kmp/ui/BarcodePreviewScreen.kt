@@ -14,6 +14,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import io.scanbot.barcode.scanner.sdk.example.kmp.ui.common.TopBar
 import io.scanbot.sdk.kmp.barcode.BarcodeItem
 import io.scanbot.sdk.kmp.ui_v2.barcode.configuration.BarcodeScannerUiResult
 
@@ -28,7 +29,7 @@ fun BarcodePreviewScreen(
 
     Scaffold(
         topBar = {
-            _root_ide_package_.io.scanbot.barcode.scanner.sdk.example.kmp.ui.common.TopBar(
+            TopBar(
                 title = "Barcodes preview",
                 showBackButton = true,
                 onPopBackStack

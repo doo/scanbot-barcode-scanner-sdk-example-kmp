@@ -3,6 +3,7 @@ package io.scanbot.barcode.scanner.sdk.example.kmp
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import io.scanbot.barcode.scanner.sdk.example.kmp.navigation.NavigationRoot
 import io.scanbot.sdk.kmp.ScanbotSDK
 import io.scanbot.sdk.kmp.common.sdk.configuration.SdkConfiguration
 
@@ -24,7 +25,7 @@ fun App() {
             }
         }
 
-        _root_ide_package_.io.scanbot.barcode.scanner.sdk.example.kmp.navigation.NavigationRoot()
+        NavigationRoot()
     }
 }
 

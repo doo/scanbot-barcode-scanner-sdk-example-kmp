@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.decodeToImageBitmap
 import androidx.compose.ui.unit.dp
+import io.scanbot.barcode.scanner.sdk.example.kmp.ui.common.GenericDocumentView
 import io.scanbot.sdk.kmp.barcode.BarcodeItem
 
 @Composable
@@ -55,7 +56,7 @@ fun BarcodeItemCard(
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier.padding(top = 5.dp)
                 )
-                _root_ide_package_.io.scanbot.barcode.scanner.sdk.example.kmp.ui.common.GenericDocumentView(
+                GenericDocumentView(
                     it
                 )
             }

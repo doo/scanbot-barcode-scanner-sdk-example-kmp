@@ -30,6 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import io.scanbot.barcode.scanner.sdk.example.kmp.ui.common.TopBar
 import io.scanbot.sdk.compose.barcode.BarcodeCameraConfiguration
 import io.scanbot.sdk.compose.barcode.FinderViewConfiguration
 import io.scanbot.sdk.compose.barcode.SelectionOverlay
@@ -73,7 +74,7 @@ fun BarcodeCustomUIScreen(
 
     Scaffold(
         topBar = {
-            _root_ide_package_.io.scanbot.barcode.scanner.sdk.example.kmp.ui.common.TopBar(
+            TopBar(
                 title = "Barcode Custom UI",
                 showBackButton = true,
                 onPopBackStack = onPopBackStack,

@@ -31,6 +31,14 @@ import dev.icerock.moko.permissions.Permission
 import dev.icerock.moko.permissions.camera.CAMERA
 import dev.icerock.moko.permissions.compose.BindEffect
 import dev.icerock.moko.permissions.compose.rememberPermissionsControllerFactory
+import io.scanbot.barcode.scanner.sdk.example.kmp.ui.common.ErrorDialog
+import io.scanbot.barcode.scanner.sdk.example.kmp.ui.common.Footer
+import io.scanbot.barcode.scanner.sdk.example.kmp.ui.common.GalleryPicker
+import io.scanbot.barcode.scanner.sdk.example.kmp.ui.common.InfoDialog
+import io.scanbot.barcode.scanner.sdk.example.kmp.ui.common.LicenseGuard
+import io.scanbot.barcode.scanner.sdk.example.kmp.ui.common.LicenseInfoDialog
+import io.scanbot.barcode.scanner.sdk.example.kmp.ui.common.MenuItem
+import io.scanbot.barcode.scanner.sdk.example.kmp.ui.common.TopBar
 import io.scanbot.sdk.kmp.barcode.BarcodeItem
 import io.scanbot.sdk.kmp.barcode.BarcodeScannerResult
 import io.scanbot.sdk.kmp.ui_v2.barcode.configuration.BarcodeScannerUiResult
@@ -53,56 +61,56 @@ fun BarcodeUseCasesScreen(
     var showGalleryPicker by remember { mutableStateOf(false) }
     var showLicenseDialog by rememberSaveable { mutableStateOf(false) }
 
-    _root_ide_package_.io.scanbot.barcode.scanner.sdk.example.kmp.ui.common.LicenseGuard { checkLicense ->
+    LicenseGuard { checkLicense ->
         Scaffold(topBar = {
-            _root_ide_package_.io.scanbot.barcode.scanner.sdk.example.kmp.ui.common.TopBar(title = "Scanbot SDK KMP Example")
+            TopBar(title = "Scanbot SDK KMP Example")
         }, bottomBar = {
-            _root_ide_package_.io.scanbot.barcode.scanner.sdk.example.kmp.ui.common.Footer()
+            Footer()
         }) { paddingValues ->
             Column(
                 modifier = Modifier.padding(paddingValues).fillMaxSize().padding(16.dp)
                     .verticalScroll(rememberScrollState()),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                _root_ide_package_.io.scanbot.barcode.scanner.sdk.example.kmp.ui.common.MenuItem("Single Scan with confirmation") {
+                MenuItem("Single Scan with confirmation") {
                     checkLicense {
                         _root_ide_package_.io.scanbot.barcode.scanner.sdk.example.kmp.doc_code_snippets.scanner.common_use_cases.startSingleScanning(
                             onResultPreview,
                             onErrorHandler = { useCaseError = it })
                     }
                 }
-                _root_ide_package_.io.scanbot.barcode.scanner.sdk.example.kmp.ui.common.MenuItem("Multiple Scan") {
+                MenuItem("Multiple Scan") {
                     checkLicense {
                         _root_ide_package_.io.scanbot.barcode.scanner.sdk.example.kmp.doc_code_snippets.scanner.common_use_cases.startMultiScanning(
                             onResultPreview,
                             onErrorHandler = { useCaseError = it })
                     }
                 }
-                _root_ide_package_.io.scanbot.barcode.scanner.sdk.example.kmp.ui.common.MenuItem("Scan and Count") {
+                MenuItem("Scan and Count") {
                     checkLicense {
                         _root_ide_package_.io.scanbot.barcode.scanner.sdk.example.kmp.doc_code_snippets.scanner.common_use_cases.startScanAndCount(
                             onResultPreview, onErrorHandler = { useCaseError = it })
                     }
                 }
-                _root_ide_package_.io.scanbot.barcode.scanner.sdk.example.kmp.ui.common.MenuItem("Find and Pick") {
+                MenuItem("Find and Pick") {
                     checkLicense {
                         _root_ide_package_.io.scanbot.barcode.scanner.sdk.example.kmp.doc_code_snippets.scanner.common_use_cases.startFindAndPickScanning(
                             onResultPreview, onErrorHandler = { useCaseError = it })
                     }
                 }
-                _root_ide_package_.io.scanbot.barcode.scanner.sdk.example.kmp.ui.common.MenuItem("Multiple Scan With AR Overlay") {
+                MenuItem("Multiple Scan With AR Overlay") {
                     checkLicense {
                         _root_ide_package_.io.scanbot.barcode.scanner.sdk.example.kmp.doc_code_snippets.scanner.common_use_cases.startArOverlayScanning(
                             onResultPreview, onErrorHandler = { useCaseError = it })
                     }
                 }
-                _root_ide_package_.io.scanbot.barcode.scanner.sdk.example.kmp.ui.common.MenuItem("Multiple Scan with Info Mapping") {
+                MenuItem("Multiple Scan with Info Mapping") {
                     checkLicense {
                         _root_ide_package_.io.scanbot.barcode.scanner.sdk.example.kmp.doc_code_snippets.scanner.common_use_cases.startMappingItemScanning(
                             onResultPreview, onErrorHandler = { useCaseError = it })
                     }
                 }
-                _root_ide_package_.io.scanbot.barcode.scanner.sdk.example.kmp.ui.common.MenuItem("Barcode Custom UI") {
+                MenuItem("Barcode Custom UI") {
                     checkLicense {
                         coroutineScope.launch {
                             try {
@@ -116,20 +124,20 @@ fun BarcodeUseCasesScreen(
                         }
                     }
                 }
-                _root_ide_package_.io.scanbot.barcode.scanner.sdk.example.kmp.ui.common.MenuItem("Scan from Image") {
+                MenuItem("Scan from Image") {
                     checkLicense {
                         showGalleryPicker = true
                     }
                 }
                 Spacer(modifier = Modifier.weight(1f))
 
-                _root_ide_package_.io.scanbot.barcode.scanner.sdk.example.kmp.ui.common.MenuItem("View License Info") {
+                MenuItem("View License Info") {
                     showLicenseDialog = true
                 }
             }
 
             if (showGalleryPicker) {
-                _root_ide_package_.io.scanbot.barcode.scanner.sdk.example.kmp.ui.common.GalleryPicker(
+                GalleryPicker(
                     allowMultiple = false,
                     onImagesSelected = { images ->
                         showGalleryPicker = false
@@ -145,7 +153,7 @@ fun BarcodeUseCasesScreen(
             }
 
             if (showLicenseDialog) {
-                _root_ide_package_.io.scanbot.barcode.scanner.sdk.example.kmp.ui.common.LicenseInfoDialog(
+                LicenseInfoDialog(
                     onDismiss = { showLicenseDialog = false })
             }
 
@@ -154,7 +162,7 @@ fun BarcodeUseCasesScreen(
             }
 
             useCaseError?.let {
-                _root_ide_package_.io.scanbot.barcode.scanner.sdk.example.kmp.ui.common.ErrorDialog(
+                ErrorDialog(
                     message = it.message,
                     onDismiss = { useCaseError = null })
             }
@@ -165,7 +173,7 @@ fun BarcodeUseCasesScreen(
 @Composable
 fun ImageScanningResult(barcodeItems: List<BarcodeItem>, onDismiss: () -> Unit) {
     if (barcodeItems.isEmpty()) {
-        _root_ide_package_.io.scanbot.barcode.scanner.sdk.example.kmp.ui.common.InfoDialog(
+        InfoDialog(
             title = "No barcodes found",
             text = "No barcodes were detected in the selected image.",
             onDismiss = onDismiss
