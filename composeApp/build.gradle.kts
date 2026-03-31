@@ -34,7 +34,7 @@ kotlin {
             dependency {
                 remotePackageVersion(
                     url = uri("https://github.com/doo/scanbot-barcode-scanner-sdk-ios-spm.git"),
-                    version = "8.0.1",
+                    version = libs.versions.scanbot.sdk.ios.barcode.get(),
                     products = {
                         add("ScanbotBarcodeScannerSDK", exportToKotlin = true)
                     },

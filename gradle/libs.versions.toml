@@ -23,6 +23,9 @@ kotlinx-serialization = "1.10.0"
 # Scanbot SDK
 scanbotSDK = "8.0.0.3-SNAPSHOT"
 
+# Native dependencies
+scanbot-sdk-ios-barcode = "8.0.1"
+
 # Third‑party libs
 moko = "0.20.1"
 imagepickerkmp = "1.0.32"

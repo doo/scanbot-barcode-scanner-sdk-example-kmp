@@ -1,6 +1,6 @@
 TEAM_ID=
 
-PRODUCT_NAME=ScanbotSDK Example KMP
+PRODUCT_NAME=Scanbot Barcode SDK Example KMP
 PRODUCT_BUNDLE_IDENTIFIER=io.scanbot.barcode.scanner.sdk.example.kmp(TEAM_ID)
 
 CURRENT_PROJECT_VERSION=1
