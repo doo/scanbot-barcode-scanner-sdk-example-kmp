@@ -25,7 +25,7 @@
         android:theme="@android:style/Theme.Material.NoActionBar">
         <activity
             android:exported="true"
-            android:name="io.scanbot.barcode.sdk.example.kmp.MainActivity">
+            android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
