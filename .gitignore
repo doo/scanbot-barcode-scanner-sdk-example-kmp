@@ -16,6 +16,5 @@ captures
 !*.xcodeproj/project.xcworkspace/
 !*.xcworkspace/contents.xcworkspacedata
 **/xcshareddata/WorkspaceSettings.xcsettings
-/scanbot_sdk/ScanbotBarcodeScannerSDK.xcframework
-/scanbot_sdk/dSYMs
-/scanbot_sdk/*doccarchive
+
+composeApp/src/swift

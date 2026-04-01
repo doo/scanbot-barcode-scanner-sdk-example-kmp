@@ -1,4 +1,4 @@
-rootProject.name = "ScanbotBarcodeScanner"
+rootProject.name = "scanbot-barcode-scanner-sdk-example-app"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
@@ -22,11 +22,11 @@ dependencyResolutionManagement {
                 includeGroupAndSubgroups("androidx")
                 includeGroupAndSubgroups("com.android")
                 includeGroupAndSubgroups("com.google")
-                maven { url = java.net.URI("https://nexus.scanbot.io/nexus/content/repositories/releases/") }
-                maven { url = java.net.URI("https://nexus.scanbot.io/nexus/content/repositories/snapshots/") }
             }
         }
         mavenCentral()
+        maven { url = uri("https://nexus.scanbot.io/nexus/content/repositories/releases/") }
+        maven { url = uri("https://nexus.scanbot.io/nexus/content/repositories/snapshots/") }
     }
 }
 

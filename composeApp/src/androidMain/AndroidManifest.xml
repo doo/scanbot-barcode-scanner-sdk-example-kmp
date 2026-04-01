@@ -3,11 +3,18 @@
 
     <uses-feature
         android:name="android.hardware.camera"
-        android:required="false" />
-    <uses-permission android:name="android.permission.CAMERA" />
+        android:required="true" />
+    <uses-permission android:name="android.permission.CAMERA"/>
 
-    <!-- TODO: If you want to load data from the internet in the ItemMapper or FindAndPick use cases, uncomment the line below -->
-    <!-- <uses-permission android:name="android.permission.INTERNET" /> -->
+    <!-- INTERNET permission is required only for loading images from URLs in the expectedBarcode list (e.g., image = "https://..."). of Find And Pick showcase
+    The SDK itself works without internet access. -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <queries>
+        <intent>
+            <action android:name="android.support.customtabs.action.CustomTabsService" />
+        </intent>
+    </queries>
 
     <application
         android:allowBackup="true"
@@ -18,9 +25,6 @@
         android:theme="@android:style/Theme.Material.NoActionBar">
         <activity
             android:exported="true"
-            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
-            android:launchMode="singleInstance"
-            android:windowSoftInputMode="adjustPan"
             android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

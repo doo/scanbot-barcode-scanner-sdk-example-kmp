@@ -5,9 +5,9 @@
   <img src=".images/ScanbotSDKLogo_darkmode.png#gh-dark-mode-only" width="15%" />
 </p>
 
-# Example App for the Scanbot Compose Multiplatform Barcode Scanner
+# Example App for the Scanbot Kotlin Multiplatform Barcode Scanner
 
-This example app demonstrates integrating the Scanbot Compose Multiplatform Barcode Scanner SDK into your Kotlin Multiplatform project.
+This example app demonstrates integrating the Scanbot Kotlin Multiplatform Barcode Scanner SDK into your project.
 
 ## What is the Scanbot Barcode Scanner SDK?
 
@@ -19,22 +19,7 @@ It operates entirely offline on the user's device and takes only 0.04 seconds to
 
 The SDK can be integrated into your mobile apps within minutes and comes with Ready-To-Use UI components, which allow you to customize the barcode scanner to your needs.
 
-💡 For more details about the Scanbot Barcode Scanner SDK, please check out our [documentation](https://docs.scanbot.io/barcode-scanner-sdk/compose/introduction/?utm_source=github.com&utm_medium=referral&utm_campaign=dev_sites).
-
-## How to run this example app?
-
-Ensure your environment is configured to run Kotlin Multiplatform applications. For setup instructions, see [this guide](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-setup.html).
-
-To download and add the latest `ScanbotBarcodeScannerSDK` XCFramework to the example app, run the following commands in the project root directory:
-
-```
-cd scripts
-./setup_iosApp.sh
-```
-
-Alternatively, you can follow the [manual setup guide](https://docs.scanbot.io/barcode-scanner-sdk/compose/detailed-setup-guide/installation/#ios) for iOS.
-
-Open the project in Android Studio and run it on Android/iOS.
+💡 For more details about the Scanbot Barcode Scanner SDK, please check out our [documentation](https://deploy-preview-1545--sensational-tiramisu-56a165.netlify.app/kmp/barcode-scanner-sdk/introduction/?utm_source=github.com&utm_medium=referral&utm_campaign=dev_sites).
 
 ## Features of the Scanbot Barcode Scanner SDK
 
@@ -75,13 +60,13 @@ The Scanbot Barcode Scanner SDK supports all common 1D- or 2D barcode formats, s
 | 2D Barcodes        | [QR Code](https://scanbot.io/glossary/qr-code/?utm_source=github.com&utm_medium=referral&utm_campaign=dev_sites), [Micro QR Code](https://scanbot.io/barcode-scanner-sdk/micro-qr-code/?utm_source=github.com&utm_medium=referral&utm_campaign=dev_sites), [Aztec Code](https://scanbot.io/barcode-scanner-sdk/aztec-code/?utm_source=github.com&utm_medium=referral&utm_campaign=dev_sites), [PDF417 Code](https://scanbot.io/barcode-scanner-sdk/pdf417/?utm_source=github.com&utm_medium=referral&utm_campaign=dev_sites), [Data Matrix Code,](https://scanbot.io/barcode-scanner-sdk/data-matrix/?utm_source=github.com&utm_medium=referral&utm_campaign=dev_sites) [GiroCode](https://scanbot.io/glossary/giro-code/?utm_source=github.com&utm_medium=referral&utm_campaign=dev_sites), [NTIN Code](https://scanbot.io/glossary/gtin/?utm_source=github.com&utm_medium=referral&utm_campaign=dev_sites), [PPN](https://scanbot.io/glossary/ppn/?utm_source=github.com&utm_medium=referral&utm_campaign=dev_sites), [UDI](https://scanbot.io/glossary/udi/?utm_source=github.com&utm_medium=referral&utm_campaign=dev_sites), [Royal Mail Mailmark](https://scanbot.io/barcode-scanner-sdk/royal-mail/?utm_source=github.com&utm_medium=referral&utm_campaign=dev_sites), MaxiCode |
 | Postal Symbologies | USPS Intelligent Mail Barcode (IMb), Royal Mail RM4SCC Barcode, Australia Post 4-State Customer Code, Japan Post 4-State Customer Code, KIX                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
 
-💡 Please visit our [docs](https://docs.scanbot.io/barcode-scanner-sdk/compose/supported-barcodes/?utm_source=github.com&utm_medium=referral&utm_campaign=dev_sites) for a complete overview of the supported barcode symbologies.
+💡 Please visit our [docs](https://deploy-preview-1545--sensational-tiramisu-56a165.netlify.app/kmp/barcode-scanner-sdk/supported-barcode-symbologies/?utm_source=github.com&utm_medium=referral&utm_campaign=dev_sites) for a complete overview of the supported barcode symbologies.
 
 ### Data Parsers
 
 The Scanbot Barcode Scanner SDK supports a variety of data parsers that extract structured information from 2D barcodes such as QR Codes and Data Matrix. These include parsers for documents such as driving licences (AAMVA), boarding passes, medical certificates, SEPA forms, Swiss QR codes and vCard business cards. 
 
-💡 Please refer to our [documentation](https://docs.scanbot.io/barcode-scanner-sdk/compose/supported-barcodes/#data-parsers) for a full list of supported data parsers.
+💡 Please refer to our [documentation](https://deploy-preview-1545--sensational-tiramisu-56a165.netlify.app/kmp/barcode-scanner-sdk/supported-barcode-symbologies/#data-parsers) for a full list of supported data parsers.
 
 ## Additional information
 
@@ -92,12 +77,6 @@ Integrating the Scanbot Barcode Scanner SDK into your app takes just a few minut
 Whether you're a seasoned developer or just starting, our tutorials provide clear instructions for adding scanning functionality with minimal effort.  
 
 💡Check out our [developer blog](https://scanbot.io/techblog/?utm_source=github.com&utm_medium=referral&utm_campaign=dev_sites) for a collection of in-depth tutorials, use cases, and best practices.
-
-### Free integration support
-
-Need help integrating our barcode scanner software into your compose multiplatform project? We offer [free developer support](https://docs.scanbot.io/support/?utm_source=github.com&utm_medium=referral&utm_campaign=dev_sites) via Slack, MS Teams, or email.
-
-As a customer, you also get access to a dedicated support Slack or Microsoft Teams channel to talk directly to your Customer Success Manager and our engineers. 
 
 ### Licensing and pricing
 
@@ -111,7 +90,7 @@ Our pricing model is simple: Unlimited barcode scanning for a flat annual licens
 
 ### Other supported platforms
 
-Besides the Compose Multiplatform, the Scanbot Barcode Scanner SDK is also available on:
+Besides the Kotlin Multiplatform, the Scanbot Barcode Scanner SDK is also available on:
 
 * [Android (native)](https://github.com/doo/scanbot-barcode-scanner-sdk-example-android)
 * [iOS (native)](https://github.com/doo/scanbot-barcode-scanner-sdk-example-ios)
