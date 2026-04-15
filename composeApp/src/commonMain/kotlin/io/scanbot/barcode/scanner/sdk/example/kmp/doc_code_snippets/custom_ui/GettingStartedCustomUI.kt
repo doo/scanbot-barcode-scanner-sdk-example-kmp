@@ -205,7 +205,7 @@ fun AdvancedBarcodeScannerConfiguration() {
 
 @Composable
 fun CommonConfigurationExample() {
-    // @Tag("Configuring BarcodeFormatCommonConfiguration")
+    // @Tag("Common configuration")
     val baseConfig = BarcodeFormatCommonConfiguration.default().copy(
         formats = BarcodeFormats.common,
     )
@@ -224,12 +224,12 @@ fun CommonConfigurationExample() {
             // Handle barcodes
         }
     )
-    // @EndTag("Configuring BarcodeFormatCommonConfiguration")
+    // @EndTag("Common configuration")
 }
 
 @Composable
 fun CameraConfigurationExample() {
-    // @Tag("Configuring Camera")
+    // @Tag("Camera configuration")
     val configuration = BarcodeCameraConfiguration(
         detectionEnabled = true,
         flashEnabled = false,
@@ -248,7 +248,7 @@ fun CameraConfigurationExample() {
             // Handle barcodes
         }
     )
-    // @EndTag("Configuring Camera")
+    // @EndTag("Camera configuration")
 }
 
 @Composable
@@ -279,7 +279,7 @@ fun FinderViewConfigurationExample() {
 
 @Composable
 fun SelectionOverlayConfigurationExample() {
-    // @Tag("Configuring Selection Overlay")
+    // @Tag("Selection overlay configuration")
     val overlayConfiguration = SelectionOverlay(
         overlayEnabled = true,
         loadingText = "Scanning...",
@@ -310,12 +310,12 @@ fun SelectionOverlayConfigurationExample() {
             // Handle tap on highlighted barcode
         }
     )
-    // @EndTag("Configuring Selection Overlay")
+    // @EndTag("Selection overlay configuration")
 }
 
 @Composable
 fun CustomBarcodeOverlayExample() {
-    // @Tag("Custom Barcode Overlay")
+    // @Tag("Custom overlay for individual barcodes")
     val overlayConfiguration = SelectionOverlay(
         overlayEnabled = true,
         textFormat = BarcodeOverlayTextFormat.CODE,
@@ -345,7 +345,7 @@ fun CustomBarcodeOverlayExample() {
             // Handle barcodes
         }
     )
-    // @EndTag("Custom Barcode Overlay")
+    // @EndTag("Custom overlay for individual barcodes")
 }
 
 

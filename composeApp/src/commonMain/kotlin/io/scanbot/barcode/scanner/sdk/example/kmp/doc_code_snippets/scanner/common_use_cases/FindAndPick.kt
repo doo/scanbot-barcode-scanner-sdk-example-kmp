@@ -5,7 +5,7 @@ package io.scanbot.barcode.scanner.sdk.example.kmp.doc_code_snippets.scanner.com
     This code is not intended for any use outside of the support of documentation by Scanbot SDK GmbH employees.
 */
 
-// @Tag("Find And Pick")
+// @Tag("Find & Pick mode")
 import io.scanbot.sdk.kmp.ScanbotSDK
 import io.scanbot.sdk.kmp.ui_v2.barcode.configuration.BarcodeScannerScreenConfiguration
 import io.scanbot.sdk.kmp.ui_v2.barcode.configuration.BarcodeScannerUiResult
@@ -81,4 +81,4 @@ fun startFindAndPickScanning(
             }
         })
 }
-// @EndTag("Find And Pick")
+// @EndTag("Find & Pick mode")
