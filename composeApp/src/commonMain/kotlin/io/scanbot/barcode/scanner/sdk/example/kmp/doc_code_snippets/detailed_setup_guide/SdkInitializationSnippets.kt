@@ -60,9 +60,7 @@ const val LICENSE_KEY = "YOUR_SCANBOT_SDK_LICENSE_KEY"
 fun enableLogging() {
     // @Tag("Enable logging")
     val configuration = SdkConfiguration(
-        licenseKey = LICENSE_KEY,
-        loggingEnabled = true,
-        enableNativeLogging = true  // Android only
+        licenseKey = LICENSE_KEY, loggingEnabled = true, enableNativeLogging = true  // Android only
     )
     // @EndTag("Enable logging")
 }
@@ -71,8 +69,7 @@ fun enableLogging() {
 fun XNNPACKAcceleration() {
     // @Tag("XNNPACK acceleration")
     val configuration = SdkConfiguration(
-        licenseKey = LICENSE_KEY,
-        allowXnnpackAcceleration = false
+        licenseKey = LICENSE_KEY, allowXnnpackAcceleration = false
     )
     // @EndTag("XNNPACK acceleration")
 }
@@ -80,8 +77,7 @@ fun XNNPACKAcceleration() {
 fun disableGpuAcceleration() {
     // @Tag("Disable GPU acceleration")
     val configuration = SdkConfiguration(
-        licenseKey = LICENSE_KEY,
-        allowGpuAcceleration = false
+        licenseKey = LICENSE_KEY, allowGpuAcceleration = false
     )
     // @EndTag("Disable GPU acceleration")
 }
@@ -89,8 +85,7 @@ fun disableGpuAcceleration() {
 fun performanceHint() {
     // @Tag("Performance hint")
     val configuration = SdkConfiguration(
-        licenseKey = LICENSE_KEY,
-        performanceHintApi = true
+        licenseKey = LICENSE_KEY, performanceHintApi = true
     )
     // @EndTag("Performance hint")
 }
@@ -101,9 +96,7 @@ fun disableOptimizations() {
         licenseKey = LICENSE_KEY,
 
         // Disable all Android optimizations
-        performanceHintApi = false,
-        allowGpuAcceleration = false,
-        allowXnnpackAcceleration = false
+        performanceHintApi = false, allowGpuAcceleration = false, allowXnnpackAcceleration = false
     )
     // @EndTag("Disable all optimizations")
 }

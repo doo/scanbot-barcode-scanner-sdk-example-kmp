@@ -27,8 +27,7 @@ class BarcodeResultHandlingSnippets {
         // @Tag("Handling barcode result")
         val configuration = BarcodeScannerConfiguration()
         val result = ScanbotSDK.barcode.scanFromImage(
-            image = imageRef,
-            configuration = configuration
+            image = imageRef, configuration = configuration
         )
 
         result.getOrNull()?.barcodes?.forEach { barcodeItem ->
@@ -60,8 +59,7 @@ class BarcodeResultHandlingSnippets {
         )
 
         val result = ScanbotSDK.barcode.scanFromImage(
-            image = imageRef,
-            configuration = configuration
+            image = imageRef, configuration = configuration
         )
         // @EndTag("Configure barcode parsers")
     }
@@ -76,8 +74,7 @@ class BarcodeResultHandlingSnippets {
         )
 
         val result = ScanbotSDK.barcode.scanFromImage(
-            image = imageRef,
-            configuration = configuration
+            image = imageRef, configuration = configuration
         )
 
         result.getOrNull()?.barcodes?.forEach { barcodeItem ->
@@ -171,8 +168,7 @@ class BarcodeResultHandlingSnippets {
         // @Tag("Handle barcode image result")
         val configuration = BarcodeScannerConfiguration()
         val result = ScanbotSDK.barcode.scanFromImage(
-            image = imageRef,
-            configuration = configuration
+            image = imageRef, configuration = configuration
         )
 
         result.getOrNull()?.barcodes?.forEach { barcodeItem ->

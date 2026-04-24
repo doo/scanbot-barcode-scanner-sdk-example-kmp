@@ -31,10 +31,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import io.scanbot.barcode.scanner.sdk.example.kmp.ui.common.TopBar
-import io.scanbot.sdk.compose.barcode.BarcodeCameraConfiguration
+import io.scanbot.sdk.compose.barcode.ArOverlayConfiguration
 import io.scanbot.sdk.compose.barcode.FinderViewConfiguration
-import io.scanbot.sdk.compose.barcode.SelectionOverlay
-import io.scanbot.sdk.compose.barcode.ui.BarcodeScannerView
+import io.scanbot.sdk.compose.barcode.ui.BarcodeScannerCustomUI
 import io.scanbot.sdk.kmp.barcode.BarcodeItem
 import io.scanbot.sdk.kmp.barcode.BarcodeScannerConfiguration
 import io.scanbot.sdk.kmp.barcode.BarcodeScannerEngineMode
@@ -49,8 +48,8 @@ fun BarcodeCustomUIScreen(
     }
     var flashEnabled by rememberSaveable { mutableStateOf(false) }
 
-    val selectionOverlay = remember {
-        SelectionOverlay(
+    val arOverlayConfiguration = remember {
+        ArOverlayConfiguration(
             overlayEnabled = true
         )
     }
@@ -102,16 +101,14 @@ fun BarcodeCustomUIScreen(
         Column(
             modifier = Modifier.padding(paddingValues).fillMaxSize()
         ) {
-            BarcodeScannerView(
+            BarcodeScannerCustomUI(
                 modifier = Modifier.fillMaxWidth().weight(1f),
-                configuration = BarcodeCameraConfiguration(
-                    detectionEnabled = true,
-                    flashEnabled = flashEnabled,
-                    cameraZoomFactor = 0.01f,
-                    scannerConfiguration = scannerConfiguration,
-                    overlayConfiguration = selectionOverlay,
-                    finderConfiguration = finderConfiguration
-                ),
+                detectionEnabled = true,
+                flashEnabled = flashEnabled,
+                cameraZoomFactor = 0.01f,
+                scannerConfiguration = scannerConfiguration,
+                arOverlayConfiguration = arOverlayConfiguration,
+                finderConfiguration = finderConfiguration,
                 onBarcodesDetected = { detected ->
                     barcodes = detected
                 },

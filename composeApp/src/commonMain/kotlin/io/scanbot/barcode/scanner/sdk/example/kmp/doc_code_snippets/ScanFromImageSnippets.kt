@@ -12,8 +12,7 @@ fun scanBarcodeFromImage(imageRef: ImageRef) {
     // Configure other parameters as needed.
 
     val result = ScanbotSDK.barcode.scanFromImage(
-        image = imageRef,
-        configuration = configuration
+        image = imageRef, configuration = configuration
     )
 
     result.fold(onFailure = { error ->
@@ -31,8 +30,7 @@ fun scanBarcodeFromImageWithResult(imageRef: ImageRef): Result<BarcodeScannerRes
     // Configure other parameters as needed.
 
     return ScanbotSDK.barcode.scanFromImage(
-        image = imageRef,
-        configuration = configuration
+        image = imageRef, configuration = configuration
     )
 // @EndTag("Detecting barcodes with result")
 }

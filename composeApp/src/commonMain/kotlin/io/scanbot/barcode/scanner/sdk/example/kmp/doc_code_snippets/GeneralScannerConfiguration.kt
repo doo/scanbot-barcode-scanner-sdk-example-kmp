@@ -118,8 +118,7 @@ class GeneralScannerConfiguration {
         configuration.returnBarcodeImage = true
 
         val result = ScanbotSDK.barcode.scanFromImage(
-            image = imageRef,
-            configuration = configuration
+            image = imageRef, configuration = configuration
         )
         // @EndTag("Advanced barcode scanner configuration")
     }
@@ -147,8 +146,7 @@ class GeneralScannerConfiguration {
 
         }
         val result = ScanbotSDK.barcode.scanFromImage(
-            image = imageRef,
-            configuration = configuration
+            image = imageRef, configuration = configuration
         )
         // @EndTag("Configure document parsers")
     }
@@ -176,8 +174,7 @@ class GeneralScannerConfiguration {
         }
 
         val result = ScanbotSDK.barcode.scanFromImage(
-            image = imageRef,
-            configuration = configuration
+            image = imageRef, configuration = configuration
         )
         // @EndTag("Configure regex filter")
     }

@@ -34,8 +34,7 @@ fun BarcodeScannerExample() {
 
         // Launch the barcode scanner:
         ScanbotSDK.barcode.startScanner(
-            configuration = config,
-            onResult = { result ->
+            configuration = config, onResult = { result ->
                 result.onSuccess { scanResult ->
                     // Barcode Scanner result callback:
                     // Get the first scanned barcode from the result object...
@@ -69,8 +68,7 @@ fun handlingResult() {
     }
 
     ScanbotSDK.barcode.startScanner(
-        configuration = config,
-        onResult = { result ->
+        configuration = config, onResult = { result ->
             result.onSuccess { scanResult ->
                 scanResult.items.forEach { barcodeUiItem ->
                     // Handle the detected barcode(s) from result
@@ -93,7 +91,6 @@ fun handlingResult() {
                     }
                 }
             }
-        }
-    )
+        })
 }
 // @EndTag("Handling the result")

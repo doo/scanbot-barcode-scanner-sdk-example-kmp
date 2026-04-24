@@ -15,8 +15,7 @@ fun NavigationRoot() {
     val onPopBackStack: () -> Unit = { navController.popBackStack() }
 
     NavHost(
-        navController = navController,
-        startDestination = Route.BarcodeUseCases
+        navController = navController, startDestination = Route.BarcodeUseCases
     ) {
         composable<Route.BarcodeUseCases> {
             BarcodeUseCasesScreen(

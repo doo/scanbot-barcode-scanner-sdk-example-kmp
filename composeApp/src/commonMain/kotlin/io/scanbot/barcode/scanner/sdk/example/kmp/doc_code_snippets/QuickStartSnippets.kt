@@ -7,14 +7,13 @@ package io.scanbot.barcode.scanner.sdk.example.kmp.doc_code_snippets
 
 // @Tag("Add imports for Scanbot SDK KMP")
 import io.scanbot.sdk.kmp.ScanbotSDK
-import io.scanbot.sdk.kmp.common.sdk.configuration.SdkConfiguration
-import io.scanbot.sdk.kmp.ui_v2.barcode.configuration.BarcodeScannerScreenConfiguration
-import io.scanbot.sdk.kmp.barcode.BarcodeScannerConfiguration
-// @EndTag("Add imports for Scanbot SDK KMP")
-
 import io.scanbot.sdk.kmp.barcode.BarcodeFormatQrCodeConfiguration
 import io.scanbot.sdk.kmp.barcode.BarcodeFormatUpcEanConfiguration
+import io.scanbot.sdk.kmp.barcode.BarcodeScannerConfiguration
+import io.scanbot.sdk.kmp.common.sdk.configuration.SdkConfiguration
 import io.scanbot.sdk.kmp.image.ImageRef
+import io.scanbot.sdk.kmp.ui_v2.barcode.configuration.BarcodeScannerScreenConfiguration
+// @EndTag("Add imports for Scanbot SDK KMP")
 
 class QuickStartSnippetKMP {
 
@@ -48,24 +47,22 @@ class QuickStartSnippetKMP {
         }
 
         // Launch the scanner
-        ScanbotSDK.barcode.startScanner(
-            configuration = config,
-            onResult = { result ->
-                result.onSuccess { scanResult ->
-                    // Handle successful scan
-                    val barcodes = scanResult.items
-                    if (barcodes.isNotEmpty()) {
-                        val firstBarcode = barcodes.first()
-                        println("Scanned: ${firstBarcode.barcode.text} (${firstBarcode.barcode.format})")
-                    }
-                }.onFailure { error ->
-                    // Handle scanning error
-                    println("Scan error: ${error.message}")
+        ScanbotSDK.barcode.startScanner(configuration = config, onResult = { result ->
+            result.onSuccess { scanResult ->
+                // Handle successful scan
+                val barcodes = scanResult.items
+                if (barcodes.isNotEmpty()) {
+                    val firstBarcode = barcodes.first()
+                    println("Scanned: ${firstBarcode.barcode.text} (${firstBarcode.barcode.format})")
                 }
-            }, onCancel = {
-                // Handle user cancellation
-                println("Scanning cancelled by user")
-            })
+            }.onFailure { error ->
+                // Handle scanning error
+                println("Scan error: ${error.message}")
+            }
+        }, onCanceled = {
+            // Handle user cancellation
+            println("Scanning cancelled by user")
+        })
         // @EndTag("Launch barcode scanner RTU UI")
     }
 

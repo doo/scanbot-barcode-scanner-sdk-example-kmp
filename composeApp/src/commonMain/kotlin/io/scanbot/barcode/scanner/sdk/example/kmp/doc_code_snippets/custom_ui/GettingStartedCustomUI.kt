@@ -1,16 +1,15 @@
 package io.scanbot.barcode.scanner.sdk.example.kmp.doc_code_snippets.custom_ui
 
-import androidx.annotation.FloatRange
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import io.scanbot.sdk.compose.barcode.BarcodeCameraConfiguration
-import io.scanbot.sdk.compose.barcode.BarcodeItemOverlay
+import io.scanbot.sdk.compose.barcode.ArOverlayConfiguration
+import io.scanbot.sdk.compose.barcode.ArOverlayPolygonConfiguration
+import io.scanbot.sdk.compose.barcode.ArOverlayTextConfiguration
 import io.scanbot.sdk.compose.barcode.BarcodeOverlayTextFormat
+import io.scanbot.sdk.compose.barcode.CameraZoomRange
 import io.scanbot.sdk.compose.barcode.FinderViewConfiguration
-import io.scanbot.sdk.compose.barcode.OverlayColors
-import io.scanbot.sdk.compose.barcode.SelectionOverlay
-import io.scanbot.sdk.compose.barcode.ui.BarcodeScannerView
+import io.scanbot.sdk.compose.barcode.ui.BarcodeScannerCustomUI
 import io.scanbot.sdk.kmp.barcode.AustraliaPostCustomerFormat
 import io.scanbot.sdk.kmp.barcode.BarcodeDocumentFormat
 import io.scanbot.sdk.kmp.barcode.BarcodeFormatAustraliaPostConfiguration
@@ -38,7 +37,8 @@ import io.scanbot.sdk.kmp.ui_v2.common.configuration.EdgeInsets
 @Composable
 fun BarcodeScannerScreen() {
     // @Tag("Basic Barcode Scanner View")
-    val configuration = BarcodeCameraConfiguration(
+    BarcodeScannerCustomUI(
+        modifier = Modifier.fillMaxSize(),
         detectionEnabled = true,
         flashEnabled = false,
         scannerConfiguration = BarcodeScannerConfiguration().apply {
@@ -47,12 +47,7 @@ fun BarcodeScannerScreen() {
                 BarcodeDocumentFormat.BOARDING_PASS,
                 BarcodeDocumentFormat.MEDICAL_CERTIFICATE
             )
-        }
-    )
-
-    BarcodeScannerView(
-        modifier = Modifier.fillMaxSize(),
-        configuration = configuration,
+        },
         onBarcodesDetected = { barcodes ->
             // Handle detected barcodes
             barcodes.forEach { barcodeItem ->
@@ -66,8 +61,7 @@ fun BarcodeScannerScreen() {
         },
         onError = { error ->
             // Handle errors
-        }
-    )
+        })
     // @EndTag("Basic Barcode Scanner View")
 }
 
@@ -96,17 +90,12 @@ fun SimpleBarcodeScannerConfiguration() {
     )
     scannerConfiguration.barcodeFormatConfigurations = listOf(baseConfig)
 
-    val configuration = BarcodeCameraConfiguration(
-        scannerConfiguration = scannerConfiguration
-    )
-
-    BarcodeScannerView(
+    BarcodeScannerCustomUI(
         modifier = Modifier.fillMaxSize(),
-        configuration = configuration,
+        scannerConfiguration = scannerConfiguration,
         onBarcodesDetected = { barcodes ->
             // Handle barcodes
-        }
-    )
+        })
     // @EndTag("Simple configuring Barcode Scanner")
 }
 
@@ -115,7 +104,7 @@ fun AdvancedBarcodeScannerConfiguration() {
     // @Tag("Advanced configuring Barcode Scanner")
     val scannerConfiguration = BarcodeScannerConfiguration()
 
-    var configs = mutableListOf<BarcodeFormatConfigurationBase>()
+    val configs = mutableListOf<BarcodeFormatConfigurationBase>()
 
     val baseConfig = BarcodeFormatCommonConfiguration.default().copy(
         regexFilter = "",
@@ -132,8 +121,7 @@ fun AdvancedBarcodeScannerConfiguration() {
 
     // Add individual configurations for specific barcode formats
     val australiaPostConfig = BarcodeFormatAustraliaPostConfiguration(
-        regexFilter = "",
-        australiaPostCustomerFormat = AustraliaPostCustomerFormat.ALPHA_NUMERIC
+        regexFilter = "", australiaPostCustomerFormat = AustraliaPostCustomerFormat.ALPHA_NUMERIC
     )
     configs.add(australiaPostConfig)
 
@@ -188,17 +176,12 @@ fun AdvancedBarcodeScannerConfiguration() {
     scannerConfiguration.engineMode = BarcodeScannerEngineMode.NEXT_GEN
     scannerConfiguration.returnBarcodeImage = true
 
-    val configuration = BarcodeCameraConfiguration(
-        scannerConfiguration = scannerConfiguration
-    )
-
-    BarcodeScannerView(
+    BarcodeScannerCustomUI(
         modifier = Modifier.fillMaxSize(),
-        configuration = configuration,
+        scannerConfiguration = scannerConfiguration,
         onBarcodesDetected = { barcodes ->
             // Handle barcodes
-        }
-    )
+        })
     // @EndTag("Advanced configuring Barcode Scanner")
 }
 
@@ -213,41 +196,31 @@ fun CommonConfigurationExample() {
     val scannerConfiguration = BarcodeScannerConfiguration()
     scannerConfiguration.barcodeFormatConfigurations = listOf(baseConfig)
 
-    val configuration = BarcodeCameraConfiguration(
-        scannerConfiguration = scannerConfiguration
-    )
-
-    BarcodeScannerView(
+    BarcodeScannerCustomUI(
         modifier = Modifier.fillMaxSize(),
-        configuration = configuration,
+        scannerConfiguration = scannerConfiguration,
         onBarcodesDetected = { barcodes ->
             // Handle barcodes
-        }
-    )
+        })
     // @EndTag("Configuring BarcodeFormatCommonConfiguration")
 }
 
 @Composable
 fun CameraConfigurationExample() {
     // @Tag("Configuring Camera")
-    val configuration = BarcodeCameraConfiguration(
+    BarcodeScannerCustomUI(
+        modifier = Modifier.fillMaxSize(),
         detectionEnabled = true,
         flashEnabled = false,
         hardwareButtonsEnabled = true,
         cameraZoomFactor = 1.0f,
-        cameraZoomRange = FloatRange(from = 1.0, to = 12.0),
+        cameraZoomRange = CameraZoomRange(minZoom = 1.0, maxZoom = 12.0),
         cameraModule = CameraModule.BACK,
         minFocusDistanceLock = false,
-        cameraLiveScannerResolution = CameraLiveScannerResolution.FULL_HD
-    )
-
-    BarcodeScannerView(
-        modifier = Modifier.fillMaxSize(),
-        configuration = configuration,
+        cameraLiveScannerResolution = CameraLiveScannerResolution.FULL_HD,
         onBarcodesDetected = { barcodes ->
             // Handle barcodes
-        }
-    )
+        })
     // @EndTag("Configuring Camera")
 }
 
@@ -263,88 +236,70 @@ fun FinderViewConfigurationExample() {
         insets = EdgeInsets(10.0, 10.0, 10.0, 10.0)
     )
 
-    val configuration = BarcodeCameraConfiguration(
-        finderConfiguration = finderConfiguration
-    )
-
-    BarcodeScannerView(
+    BarcodeScannerCustomUI(
         modifier = Modifier.fillMaxSize(),
-        configuration = configuration,
+        finderConfiguration = finderConfiguration,
         onBarcodesDetected = { barcodes ->
             // Handle barcodes
-        }
-    )
+        })
     // @EndTag("Configuring Finder View")
 }
 
 @Composable
-fun SelectionOverlayConfigurationExample() {
+fun ArOverlayConfigurationExample() {
     // @Tag("Configuring Selection Overlay")
-    val overlayConfiguration = SelectionOverlay(
-        overlayEnabled = true,
-        loadingText = "Scanning...",
-        textFormat = BarcodeOverlayTextFormat.CODE_AND_TYPE,
-        colors = OverlayColors(
+    val configuration = ArOverlayConfiguration(
+        overlayEnabled = true, polygonConfiguration = ArOverlayPolygonConfiguration.Style(
             polygonColor = ScanbotColor("#00CFA633"),
             strokeColor = ScanbotColor("#00CFA6CC"),
             highlightedPolygonColor = ScanbotColor("#C81A3C33"),
-            highlightedStrokeColor = ScanbotColor("#C81A3CCC"),
+            highlightedStrokeColor = ScanbotColor("#C81A3CCC")
+        ), textConfiguration = ArOverlayTextConfiguration.Style(
             textColor = ScanbotColor("#000000"),
             textContainerColor = ScanbotColor("#00CFA6CC"),
             highlightedTextColor = ScanbotColor("#FFFFFF"),
-            highlightedTextContainerColor = ScanbotColor("#C81A3CCC")
+            highlightedTextContainerColor = ScanbotColor("#C81A3CCC"),
+            textFormat = BarcodeOverlayTextFormat.CODE_AND_TYPE
         )
     )
 
-    val configuration = BarcodeCameraConfiguration(
-        overlayConfiguration = overlayConfiguration
-    )
-
-    BarcodeScannerView(
+    BarcodeScannerCustomUI(
         modifier = Modifier.fillMaxSize(),
-        configuration = configuration,
+        arOverlayConfiguration = configuration,
         onBarcodesDetected = { barcodes ->
             // Handle barcodes
         },
         onBarcodeTap = { barcode, highlighted ->
             // Handle tap on highlighted barcode
-        }
-    )
+        })
     // @EndTag("Configuring Selection Overlay")
 }
 
 @Composable
 fun CustomBarcodeOverlayExample() {
     // @Tag("Custom Barcode Overlay")
-    val overlayConfiguration = SelectionOverlay(
+    val configuration = ArOverlayConfiguration(
         overlayEnabled = true,
-        textFormat = BarcodeOverlayTextFormat.CODE,
-        itemOverlayViewBinder = { barcodes ->
-            barcodes.map { barcode ->
-                BarcodeItemOverlay(
-                    barcodeItem = barcode,
-                    text = "Custom: ${barcode.text}",
-                    textFormat = BarcodeOverlayTextFormat.CODE_AND_TYPE,
-                    colors = OverlayColors(
-                        polygonColor = ScanbotColor("#FF0000CC"),
-                        strokeColor = ScanbotColor("#FF0000CC")
-                    )
-                )
-            }
-        }
+        polygonConfiguration = ArOverlayPolygonConfiguration.StyleForBarcodeItem { barcodeItem ->
+            ArOverlayPolygonConfiguration.Style(
+                polygonColor = ScanbotColor("#FF0000CC"), strokeColor = ScanbotColor("#FF0000CC")
+            )
+        },
+        textConfiguration = ArOverlayTextConfiguration.StyleForBarcodeItem({ barcodeItem ->
+            ArOverlayTextConfiguration.Style(
+                textFormat = BarcodeOverlayTextFormat.CODE_AND_TYPE,
+            )
+        }, { barcodeItem, text ->
+            "Custom: $text"
+        })
     )
 
-    val configuration = BarcodeCameraConfiguration(
-        overlayConfiguration = overlayConfiguration
-    )
-
-    BarcodeScannerView(
+    BarcodeScannerCustomUI(
         modifier = Modifier.fillMaxSize(),
-        configuration = configuration,
+        arOverlayConfiguration = configuration,
         onBarcodesDetected = { barcodes ->
             // Handle barcodes
-        }
-    )
+        })
     // @EndTag("Custom Barcode Overlay")
 }
 
@@ -352,12 +307,8 @@ fun CustomBarcodeOverlayExample() {
 @Composable
 fun HandleBarcodeScanResults() {
     // @Tag("Handling the Result")
-    val configuration = BarcodeCameraConfiguration()
-
-    BarcodeScannerView(
-        modifier = Modifier.fillMaxSize(),
-        configuration = configuration,
-        onBarcodesDetected = { barcodes ->
+    BarcodeScannerCustomUI(
+        modifier = Modifier.fillMaxSize(), onBarcodesDetected = { barcodes ->
             barcodes.forEach { barcodeItem ->
                 // Handle the detected barcode(s) from result
                 val barcodeText = barcodeItem.text
@@ -369,7 +320,6 @@ fun HandleBarcodeScanResults() {
                 // This is the image of the barcode that was scanned
                 val barcodeImage = barcodeItem.sourceImage
             }
-        }
-    )
+        })
     // @EndTag("Handling the Result")
 }
