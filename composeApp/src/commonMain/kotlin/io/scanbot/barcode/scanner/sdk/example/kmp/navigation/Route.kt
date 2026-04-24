@@ -10,7 +10,7 @@ sealed interface Route {
 
     @Serializable
     data class BarcodePreview(val barcodeJson: String) : Route
-    
+
     @Serializable
     data object BarcodeCustomUI : Route
 }

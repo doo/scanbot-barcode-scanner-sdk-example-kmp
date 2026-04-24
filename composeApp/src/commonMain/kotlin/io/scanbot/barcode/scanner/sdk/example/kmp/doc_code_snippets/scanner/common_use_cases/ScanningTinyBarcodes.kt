@@ -19,11 +19,9 @@ fun scanTinyBarcodes() {
     // Configure other parameters as needed.
 
     ScanbotSDK.barcode.startScanner(
-        configuration = config,
-        onResult = { result ->
+        configuration = config, onResult = { result ->
             result.onSuccess { TODO("Handle scanned result") }
             result.onFailure { TODO("Handle error") }
-        }
-    )
+        })
 }
 // @EndTag("Scanning tiny barcodes")

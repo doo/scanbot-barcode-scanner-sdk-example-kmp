@@ -28,4 +28,3 @@ fun App() {
         NavigationRoot()
     }
 }
-

@@ -31,6 +31,13 @@ import dev.icerock.moko.permissions.Permission
 import dev.icerock.moko.permissions.camera.CAMERA
 import dev.icerock.moko.permissions.compose.BindEffect
 import dev.icerock.moko.permissions.compose.rememberPermissionsControllerFactory
+import io.scanbot.barcode.scanner.sdk.example.kmp.doc_code_snippets.scanBarcodeFromImageWithResult
+import io.scanbot.barcode.scanner.sdk.example.kmp.doc_code_snippets.scanner.common_use_cases.startArOverlayScanning
+import io.scanbot.barcode.scanner.sdk.example.kmp.doc_code_snippets.scanner.common_use_cases.startFindAndPickScanning
+import io.scanbot.barcode.scanner.sdk.example.kmp.doc_code_snippets.scanner.common_use_cases.startMappingItemScanning
+import io.scanbot.barcode.scanner.sdk.example.kmp.doc_code_snippets.scanner.common_use_cases.startMultiScanning
+import io.scanbot.barcode.scanner.sdk.example.kmp.doc_code_snippets.scanner.common_use_cases.startScanAndCount
+import io.scanbot.barcode.scanner.sdk.example.kmp.doc_code_snippets.scanner.common_use_cases.startSingleScanning
 import io.scanbot.barcode.scanner.sdk.example.kmp.ui.common.ErrorDialog
 import io.scanbot.barcode.scanner.sdk.example.kmp.ui.common.Footer
 import io.scanbot.barcode.scanner.sdk.example.kmp.ui.common.GalleryPicker
@@ -74,39 +81,37 @@ fun BarcodeUseCasesScreen(
             ) {
                 MenuItem("Single Scan with confirmation") {
                     checkLicense {
-                        _root_ide_package_.io.scanbot.barcode.scanner.sdk.example.kmp.doc_code_snippets.scanner.common_use_cases.startSingleScanning(
-                            onResultPreview,
-                            onErrorHandler = { useCaseError = it })
+                        startSingleScanning(
+                            onResultPreview, onErrorHandler = { useCaseError = it })
                     }
                 }
                 MenuItem("Multiple Scan") {
                     checkLicense {
-                        _root_ide_package_.io.scanbot.barcode.scanner.sdk.example.kmp.doc_code_snippets.scanner.common_use_cases.startMultiScanning(
-                            onResultPreview,
-                            onErrorHandler = { useCaseError = it })
+                        startMultiScanning(
+                            onResultPreview, onErrorHandler = { useCaseError = it })
                     }
                 }
                 MenuItem("Scan and Count") {
                     checkLicense {
-                        _root_ide_package_.io.scanbot.barcode.scanner.sdk.example.kmp.doc_code_snippets.scanner.common_use_cases.startScanAndCount(
+                        startScanAndCount(
                             onResultPreview, onErrorHandler = { useCaseError = it })
                     }
                 }
                 MenuItem("Find and Pick") {
                     checkLicense {
-                        _root_ide_package_.io.scanbot.barcode.scanner.sdk.example.kmp.doc_code_snippets.scanner.common_use_cases.startFindAndPickScanning(
+                        startFindAndPickScanning(
                             onResultPreview, onErrorHandler = { useCaseError = it })
                     }
                 }
                 MenuItem("Multiple Scan With AR Overlay") {
                     checkLicense {
-                        _root_ide_package_.io.scanbot.barcode.scanner.sdk.example.kmp.doc_code_snippets.scanner.common_use_cases.startArOverlayScanning(
+                        startArOverlayScanning(
                             onResultPreview, onErrorHandler = { useCaseError = it })
                     }
                 }
                 MenuItem("Multiple Scan with Info Mapping") {
                     checkLicense {
-                        _root_ide_package_.io.scanbot.barcode.scanner.sdk.example.kmp.doc_code_snippets.scanner.common_use_cases.startMappingItemScanning(
+                        startMappingItemScanning(
                             onResultPreview, onErrorHandler = { useCaseError = it })
                     }
                 }
@@ -137,19 +142,16 @@ fun BarcodeUseCasesScreen(
             }
 
             if (showGalleryPicker) {
-                GalleryPicker(
-                    allowMultiple = false,
-                    onImagesSelected = { images ->
-                        showGalleryPicker = false
-                        _root_ide_package_.io.scanbot.barcode.scanner.sdk.example.kmp.doc_code_snippets.scanBarcodeFromImageWithResult(
-                            images.first()
-                        ).onSuccess {
-                            scanFromImageResult = it
-                        }.onFailure {
-                            useCaseError = it
-                        }
-                    },
-                    onDismiss = { showGalleryPicker = false })
+                GalleryPicker(allowMultiple = false, onImagesSelected = { images ->
+                    showGalleryPicker = false
+                    scanBarcodeFromImageWithResult(
+                        images.first()
+                    ).onSuccess {
+                        scanFromImageResult = it
+                    }.onFailure {
+                        useCaseError = it
+                    }
+                }, onDismiss = { showGalleryPicker = false })
             }
 
             if (showLicenseDialog) {
@@ -163,8 +165,7 @@ fun BarcodeUseCasesScreen(
 
             useCaseError?.let {
                 ErrorDialog(
-                    message = it.message,
-                    onDismiss = { useCaseError = null })
+                    message = it.message, onDismiss = { useCaseError = null })
             }
         }
     }
@@ -181,9 +182,7 @@ fun ImageScanningResult(barcodeItems: List<BarcodeItem>, onDismiss: () -> Unit) 
     } else {
         Dialog(onDismissRequest = onDismiss) {
             Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
+                modifier = Modifier.fillMaxWidth().padding(16.dp),
                 shape = RoundedCornerShape(16.dp),
             ) {
                 Text(
@@ -193,18 +192,15 @@ fun ImageScanningResult(barcodeItems: List<BarcodeItem>, onDismiss: () -> Unit) 
                 )
 
                 BarcodeItemsPreview(
-                    modifier = Modifier
-                        .heightIn(max = 350.dp), items = barcodeItems
+                    modifier = Modifier.heightIn(max = 350.dp), items = barcodeItems
                 )
 
                 Row(
-                    modifier = Modifier
-                        .fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.End,
                 ) {
                     TextButton(
-                        onClick = onDismiss,
-                        modifier = Modifier.padding(8.dp)
+                        onClick = onDismiss, modifier = Modifier.padding(8.dp)
                     ) {
                         Text("Close")
                     }

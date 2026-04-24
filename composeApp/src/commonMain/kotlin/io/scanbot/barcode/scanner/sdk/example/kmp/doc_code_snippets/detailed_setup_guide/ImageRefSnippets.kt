@@ -16,8 +16,7 @@ class ImageRefSnippets {
     fun createImageRefFromPath() {
         // @Tag("Create ImageRef from file path")
         val imageRef = ImageRef.fromPath(
-            path = "path/to/image.jpg",
-            options = PathImageLoadOptions()
+            path = "path/to/image.jpg", options = PathImageLoadOptions()
         )
         // @EndTag("Create ImageRef from file path")
     }
@@ -25,8 +24,7 @@ class ImageRefSnippets {
     // @Tag("Create ImageRef from encoded buffer")
     fun createImageRefFromBuffer(imageBytes: ByteArray) {
         val imageRef = ImageRef.fromEncodedBuffer(
-            buffer = imageBytes,
-            options = BufferImageLoadOptions()
+            buffer = imageBytes, options = BufferImageLoadOptions()
         )
     }
     // @EndTag("Create ImageRef from encoded buffer")
@@ -50,8 +48,7 @@ class ImageRefSnippets {
         val imageRef = ImageRef.fromEncodedBuffer(imageBytes)
 
         imageRef?.save(
-            path = "path/to/output.jpg",
-            options = SaveImageOptions()
+            path = "path/to/output.jpg", options = SaveImageOptions()
         )?.onSuccess {
             println("Image saved successfully")
         }?.onFailure { error ->

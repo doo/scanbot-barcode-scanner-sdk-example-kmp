@@ -7,11 +7,11 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		FD4B1F429C77BD8D7E0A8E83 /* ScanbotSDK Example KMP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ScanbotSDK Example KMP.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FD4B1F429C77BD8D7E0A8E83 /* Scanbot Barcode SDK Example KMP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Scanbot Barcode SDK Example KMP.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		45BE2077AEA827208D8F2374 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+		45BE2077AEA827208D8F2374 /* Exceptions for "iosApp" folder in "iosApp" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -24,7 +24,7 @@
 		16205FB2ADE4657CDCE8AA64 /* iosApp */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				45BE2077AEA827208D8F2374 /* PBXFileSystemSynchronizedBuildFileExceptionSet */,
+				45BE2077AEA827208D8F2374 /* Exceptions for "iosApp" folder in "iosApp" target */,
 			);
 			path = iosApp;
 			sourceTree = "<group>";
@@ -50,7 +50,7 @@
 		09BDFCEBDD7DD1BFE0EB8230 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				FD4B1F429C77BD8D7E0A8E83 /* ScanbotSDK Example KMP.app */,
+				FD4B1F429C77BD8D7E0A8E83 /* Scanbot Barcode SDK Example KMP.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -72,7 +72,6 @@
 			buildConfigurationList = 108282DD971C70B84D23D5AF /* Build configuration list for PBXNativeTarget "iosApp" */;
 			buildPhases = (
 				63DBE8FA2ECC93A100D821A6 /* Run Script */,
-				C3C7E2C90FA3FE56FD6D5105 /* Compile Kotlin Framework */,
 				BF726DFD356FA17B33567EE6 /* Sources */,
 				FDC19B845A66462344987209 /* Frameworks */,
 				3A69044CCD809749B41DAFAF /* Resources */,
@@ -88,7 +87,7 @@
 			packageProductDependencies = (
 			);
 			productName = iosApp;
-			productReference = FD4B1F429C77BD8D7E0A8E83 /* ScanbotSDK Example KMP.app */;
+			productReference = FD4B1F429C77BD8D7E0A8E83 /* Scanbot Barcode SDK Example KMP.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -153,27 +152,8 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"YES\" = \"$OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED\" ]; then\n  echo \"Skipping Gradle build task invocation due to OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED environment variable set to \\\"YES\\\"\"\n  exit 0\nfi\n# Type a script or drag a script file from your workspace to insert its path.\ncd \"$SRCROOT/..\"\n./gradlew :composeApp:embedAndSignAppleFrameworkForXcode";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\ncd \"$SRCROOT/..\"\n./gradlew :composeApp:embedAndSignAppleFrameworkForXcode\n";
 			showEnvVarsInLog = 0;
-		};
-		C3C7E2C90FA3FE56FD6D5105 /* Compile Kotlin Framework */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Compile Kotlin Framework";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if [ \"YES\" = \"$OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED\" ]; then\n  echo \"Skipping Gradle build task invocation due to OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED environment variable set to \\\"YES\\\"\"\n  exit 0\nfi\ncd \"$SRCROOT/..\"\n./gradlew :composeApp:embedAndSignAppleFrameworkForXcode\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

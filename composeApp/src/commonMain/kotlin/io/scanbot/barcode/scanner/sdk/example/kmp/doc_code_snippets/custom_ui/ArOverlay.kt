@@ -3,12 +3,11 @@ package io.scanbot.barcode.scanner.sdk.example.kmp.doc_code_snippets.custom_ui
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import io.scanbot.sdk.compose.barcode.BarcodeCameraConfiguration
+import io.scanbot.sdk.compose.barcode.ArOverlayConfiguration
+import io.scanbot.sdk.compose.barcode.ArOverlayPolygonConfiguration
+import io.scanbot.sdk.compose.barcode.ArOverlayTextConfiguration
 import io.scanbot.sdk.compose.barcode.BarcodeOverlayTextFormat
-import io.scanbot.sdk.compose.barcode.OverlayColors
-import io.scanbot.sdk.compose.barcode.SelectionOverlay
-import io.scanbot.sdk.compose.barcode.ui.BarcodeScannerView
-
+import io.scanbot.sdk.compose.barcode.ui.BarcodeScannerCustomUI
 import io.scanbot.sdk.kmp.ui_v2.common.ScanbotColor
 
 /*
@@ -17,76 +16,67 @@ import io.scanbot.sdk.kmp.ui_v2.common.ScanbotColor
 */
 
 @Composable
-fun BasicSelectionBarcodeScanner() {
+fun BasicArOverlayBarcodeScanner() {
     // @Tag("Basic Selection Overlay")
-    val configuration = BarcodeCameraConfiguration(
-        overlayConfiguration = SelectionOverlay(
-            overlayEnabled = true,
-            colors = OverlayColors(
-                polygonColor = ScanbotColor("#00FF00CC"),
-                textColor = ScanbotColor("#FFFFFF")
-            )
+    val configuration = ArOverlayConfiguration(
+        overlayEnabled = true, polygonConfiguration = ArOverlayPolygonConfiguration.Style(
+            polygonColor = ScanbotColor("#00FF00CC"),
+        ), textConfiguration = ArOverlayTextConfiguration.Style(
+            textColor = ScanbotColor("#FFFFFF")
         )
     )
 
-    BarcodeScannerView(
+    BarcodeScannerCustomUI(
         modifier = Modifier.fillMaxSize(),
-        configuration = configuration,
+        arOverlayConfiguration = configuration,
         onBarcodesDetected = { barcodes ->
             // Handle detected barcodes
-        }
-    )
+        })
     // @EndTag("Basic Selection Overlay")
 }
 
 @Composable
-fun SelectionOverlayBarcodeScanner() {
+fun ArOverlayBarcodeScanner() {
     // @Tag("Selection Overlay with Text Format")
-    val configuration = BarcodeCameraConfiguration(
-        overlayConfiguration = SelectionOverlay(
-            overlayEnabled = true,
+    val configuration = ArOverlayConfiguration(
+        overlayEnabled = true, polygonConfiguration = ArOverlayPolygonConfiguration.Style(
+            polygonColor = ScanbotColor("#0093ffCC"),
+            strokeColor = ScanbotColor("#0027ffCC"),
+        ), textConfiguration = ArOverlayTextConfiguration.Style(
+            textColor = ScanbotColor("#ffffff"),
+            textContainerColor = ScanbotColor("#ff0000CC"),
             textFormat = BarcodeOverlayTextFormat.CODE_AND_TYPE,
-            colors = OverlayColors(
-                polygonColor = ScanbotColor("#0093ffCC"),
-                strokeColor = ScanbotColor("#0027ffCC"),
-                textColor = ScanbotColor("#ffffff"),
-                textContainerColor = ScanbotColor("#ff0000CC")
-            )
         )
     )
 
-    BarcodeScannerView(
+    BarcodeScannerCustomUI(
         modifier = Modifier.fillMaxSize(),
-        configuration = configuration,
+        arOverlayConfiguration = configuration,
         onBarcodesDetected = { barcodes ->
             // Handle detected barcodes
-        }
-    )
+        })
     // @EndTag("Selection Overlay with Text Format")
 }
 
 @Composable
-fun SelectionOverlayTapBarcodeScanner() {
+fun ArOverlayTapBarcodeScanner() {
     // @Tag("Selection Overlay with Tap Handling")
-    val configuration = BarcodeCameraConfiguration(
-        overlayConfiguration = SelectionOverlay(
-            overlayEnabled = true,
-            colors = OverlayColors(
-                polygonColor = ScanbotColor("#ff0005CC"),
-                textColor = ScanbotColor("#FFFFFF")
-            )
+    val configuration = ArOverlayConfiguration(
+        overlayEnabled = true, polygonConfiguration = ArOverlayPolygonConfiguration.Style(
+            polygonColor = ScanbotColor("#ff0005CC"),
+        ), textConfiguration = ArOverlayTextConfiguration.Style(
+            textColor = ScanbotColor("#FFFFFF")
         )
     )
 
-    BarcodeScannerView(
+    BarcodeScannerCustomUI(
         modifier = Modifier.fillMaxSize(),
-        configuration = configuration,
+        arOverlayConfiguration = configuration,
         onBarcodesDetected = { barcodes ->
             // Handle detected barcodes
         },
         onBarcodeTap = { barcode, highlighted ->
             // Handle selected barcode
-        }
-    )
+        })
     // @EndTag("Selection Overlay with Tap Handling")
 }

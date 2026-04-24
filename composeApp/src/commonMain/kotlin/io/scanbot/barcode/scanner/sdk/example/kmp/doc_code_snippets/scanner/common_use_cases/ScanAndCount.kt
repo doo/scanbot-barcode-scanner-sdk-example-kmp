@@ -62,9 +62,7 @@ fun rtuUiScanAndCountUseCase(): BarcodeScannerScreenConfiguration {
                 } else {
                     onResult.onResult(
                         BarcodeMappedData(
-                            title = title,
-                            subtitle = subtitle,
-                            barcodeImage = image
+                            title = title, subtitle = subtitle, barcodeImage = image
                         )
                     )
                 }
@@ -94,7 +92,6 @@ fun startScanAndCount(
             }.onFailure {
                 onErrorHandler(it)
             }
-        }
-    )
+        })
 }
 // @EndTag("Scan and count")
