@@ -21,17 +21,17 @@ navigation-compose = "2.9.2"
 kotlinx-serialization = "1.10.0"
 
 # Scanbot SDK
-scanbotSDK = "8.0.0"
+scanbotSDK = "9.0.0.94-SNAPSHOT"
 
 # Native dependencies
-scanbot-sdk-ios-barcode = "8.0.1"
+scanbot-sdk-ios-barcode = "9.0.0-RC10"
 
 # Third‑party libs
 moko = "0.20.1"
 imagepickerkmp = "1.0.32"
 
 # Build plugins
-spm = "1.4.8"
+spm = "1.9.2"
 
 [libraries]
 # Compose Multiplatform

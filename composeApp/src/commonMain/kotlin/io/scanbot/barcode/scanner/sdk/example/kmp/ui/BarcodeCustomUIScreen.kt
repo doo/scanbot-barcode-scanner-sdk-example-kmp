@@ -1,5 +1,6 @@
 package io.scanbot.barcode.scanner.sdk.example.kmp.ui
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -102,7 +103,7 @@ fun BarcodeCustomUIScreen(
             modifier = Modifier.padding(paddingValues).fillMaxSize()
         ) {
             BarcodeScannerCustomUI(
-                modifier = Modifier.fillMaxWidth().weight(1f),
+                modifier = Modifier.fillMaxWidth().weight(1f).background(Color.Black),
                 detectionEnabled = true,
                 flashEnabled = flashEnabled,
                 cameraZoomFactor = 0.01f,
