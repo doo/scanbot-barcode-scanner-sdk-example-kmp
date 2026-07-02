@@ -20,7 +20,6 @@ fun scanBarcodeFromImage(imageRef: ImageRef) {
     }, onSuccess = { result ->
         // handle the detected barcode(s)
     })
-    // handle the detected barcode(s) from result
 // @EndTag("Detecting barcodes")
 }
 
