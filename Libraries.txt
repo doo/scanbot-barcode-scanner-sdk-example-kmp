@@ -1,8 +1,8 @@
-Open Source libraries used in the Scanbot Barcode Scanner SDK for Kotlin Multiplatform version 8.0.0:
+Open Source libraries used in the Scanbot Barcode Scanner SDK for Kotlin Multiplatform version 9.0.0:
 
 //-------------------------------------------------------------
 
-Open Source libraries used in the Scanbot Barcode Scanner SDK for Android version 8.0.1
+Open Source libraries used in the Scanbot Barcode Scanner SDK for Android version 9.0.0
 
 CWAC-Camera
 
@@ -1980,7 +1980,7 @@ defined by AIM ITS/04-023 International Technical Standard - Extended Channel In
 
 magic-enum
 
-Version v0.8.1
+Version v0.9.7
 (https://github.com/Neargye/magic_enum)
 
 MIT License
@@ -3492,7 +3492,7 @@ Version 1.1.0
 
 //--------------------------------------------------------------------------
 
-Open Source libraries used in ScanbotSDK for iOS version 8.0.1:
+Open Source libraries used in ScanbotBarcodeScannerSDK for iOS version 9.0.0:
 
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
@@ -5278,12 +5278,12 @@ defined by AIM ITS/04-023 International Technical Standard - Extended Channel In
 
 magic-enum
 
-Version v0.8.1
+Version v0.9.7
 (https://github.com/Neargye/magic_enum)
 
 MIT License
 
-Copyright (c) 2019 - 2022 Daniil Goncharov
+Copyright (c) 2019 - 2024 Daniil Goncharov
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
