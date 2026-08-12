@@ -56,6 +56,8 @@ kotlin {
             implementation(libs.compose.components.resources)
             implementation(libs.compose.components.uitoolingpreview)
             implementation(libs.compose.material.icons.extended)
+            implementation(libs.filekit.core)
+            implementation(libs.filekit.dialogs.compose)
 
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.androidx.lifecycle.viewmodel.compose)

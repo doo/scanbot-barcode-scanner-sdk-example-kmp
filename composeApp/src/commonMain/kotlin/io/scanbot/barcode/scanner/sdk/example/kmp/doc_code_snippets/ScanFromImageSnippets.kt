@@ -33,3 +33,17 @@ fun scanBarcodeFromImageWithResult(imageRef: ImageRef): Result<BarcodeScannerRes
     )
 // @EndTag("Detecting barcodes with result")
 }
+
+// @Tag("Scan barcode from PDF")
+fun scanBarcodeFromPdf(
+    pdfFileUri: String,
+): Result<BarcodeScannerResult> {
+    val configuration = BarcodeScannerConfiguration()
+    // Configure other parameters as needed.
+
+    return ScanbotSDK.barcode.scanFromPdf(
+        pdfFileUri = pdfFileUri,
+        configuration = configuration,
+    )
+}
+// @EndTag("Scan barcode from PDF")
