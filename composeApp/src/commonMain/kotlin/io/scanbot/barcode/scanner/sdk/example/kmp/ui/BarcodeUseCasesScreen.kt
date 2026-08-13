@@ -59,7 +59,7 @@ fun BarcodeUseCasesScreen(
     onResultPreview: (BarcodeScannerUiResult) -> Unit,
     navigateToBarcodeCustomUI: () -> Unit,
 ) {
-    var scanFromImageResult by remember { mutableStateOf<BarcodeScannerResult?>(null) }
+    var displayedBarcodeResult by remember { mutableStateOf<BarcodeScannerResult?>(null) }
     var useCaseError by remember { mutableStateOf<Throwable?>(null) }
     val coroutineScope = rememberCoroutineScope()
 
@@ -72,7 +72,7 @@ fun BarcodeUseCasesScreen(
 
     val handlePickerUseCaseResult: (Result<BarcodeScannerResult>) -> Unit = { result ->
         result.onSuccess {
-            scanFromImageResult = it
+            displayedBarcodeResult = it
         }.onFailure({ useCaseError = it })
     }
 
@@ -174,8 +174,8 @@ fun BarcodeUseCasesScreen(
                     onDismiss = { showLicenseDialog = false })
             }
 
-            scanFromImageResult?.let { result ->
-                ImageScanningResult(result.barcodes, onDismiss = { scanFromImageResult = null })
+            displayedBarcodeResult?.let { result ->
+                BarcodeResultPreview(result.barcodes, onDismiss = { displayedBarcodeResult = null })
             }
 
             useCaseError?.let {
@@ -187,11 +187,11 @@ fun BarcodeUseCasesScreen(
 }
 
 @Composable
-fun ImageScanningResult(barcodeItems: List<BarcodeItem>, onDismiss: () -> Unit) {
+fun BarcodeResultPreview(barcodeItems: List<BarcodeItem>, onDismiss: () -> Unit) {
     if (barcodeItems.isEmpty()) {
         InfoDialog(
             title = "No barcodes found",
-            text = "No barcodes were detected in the selected image.",
+            text = "No barcodes were detected.",
             onDismiss = onDismiss
         )
     } else {
