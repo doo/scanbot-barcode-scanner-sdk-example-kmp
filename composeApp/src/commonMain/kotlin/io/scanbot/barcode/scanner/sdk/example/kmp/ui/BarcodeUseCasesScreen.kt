@@ -31,6 +31,7 @@ import dev.icerock.moko.permissions.Permission
 import dev.icerock.moko.permissions.camera.CAMERA
 import dev.icerock.moko.permissions.compose.BindEffect
 import dev.icerock.moko.permissions.compose.rememberPermissionsControllerFactory
+import io.scanbot.barcode.scanner.sdk.example.kmp.doc_code_snippets.scanBarcodeFromPdf
 import io.scanbot.barcode.scanner.sdk.example.kmp.doc_code_snippets.scanBarcodeFromImageWithResult
 import io.scanbot.barcode.scanner.sdk.example.kmp.doc_code_snippets.scanner.common_use_cases.startArOverlayScanning
 import io.scanbot.barcode.scanner.sdk.example.kmp.doc_code_snippets.scanner.common_use_cases.startFindAndPickScanning
@@ -40,15 +41,17 @@ import io.scanbot.barcode.scanner.sdk.example.kmp.doc_code_snippets.scanner.comm
 import io.scanbot.barcode.scanner.sdk.example.kmp.doc_code_snippets.scanner.common_use_cases.startSingleScanning
 import io.scanbot.barcode.scanner.sdk.example.kmp.ui.common.ErrorDialog
 import io.scanbot.barcode.scanner.sdk.example.kmp.ui.common.Footer
-import io.scanbot.barcode.scanner.sdk.example.kmp.ui.common.GalleryPicker
 import io.scanbot.barcode.scanner.sdk.example.kmp.ui.common.InfoDialog
 import io.scanbot.barcode.scanner.sdk.example.kmp.ui.common.LicenseGuard
 import io.scanbot.barcode.scanner.sdk.example.kmp.ui.common.LicenseInfoDialog
 import io.scanbot.barcode.scanner.sdk.example.kmp.ui.common.MenuItem
 import io.scanbot.barcode.scanner.sdk.example.kmp.ui.common.TopBar
+import io.scanbot.barcode.scanner.sdk.example.kmp.ui.common.rememberImagePickerLauncher
+import io.scanbot.barcode.scanner.sdk.example.kmp.ui.common.rememberPdfPickerLauncher
 import io.scanbot.sdk.kmp.barcode.BarcodeItem
 import io.scanbot.sdk.kmp.barcode.BarcodeScannerResult
 import io.scanbot.sdk.kmp.ui_v2.barcode.configuration.BarcodeScannerUiResult
+import io.scanbot.sdk.kmp.utils.Result
 import kotlinx.coroutines.launch
 
 @Composable
@@ -56,7 +59,7 @@ fun BarcodeUseCasesScreen(
     onResultPreview: (BarcodeScannerUiResult) -> Unit,
     navigateToBarcodeCustomUI: () -> Unit,
 ) {
-    var scanFromImageResult by remember { mutableStateOf<BarcodeScannerResult?>(null) }
+    var displayedBarcodeResult by remember { mutableStateOf<BarcodeScannerResult?>(null) }
     var useCaseError by remember { mutableStateOf<Throwable?>(null) }
     val coroutineScope = rememberCoroutineScope()
 
@@ -65,8 +68,28 @@ fun BarcodeUseCasesScreen(
 
     BindEffect(controller)
 
-    var showGalleryPicker by remember { mutableStateOf(false) }
     var showLicenseDialog by rememberSaveable { mutableStateOf(false) }
+
+    val handlePickerUseCaseResult: (Result<BarcodeScannerResult>) -> Unit = { result ->
+        result.onSuccess {
+            displayedBarcodeResult = it
+        }.onFailure({ useCaseError = it })
+    }
+
+    val launchImagePicker = rememberImagePickerLauncher(
+        allowMultiple = false,
+        onImagesSelected = { images ->
+            handlePickerUseCaseResult(scanBarcodeFromImageWithResult(images.first()))
+        },
+        onError = { useCaseError = it }
+    )
+
+    val launchPdfPicker = rememberPdfPickerLauncher(
+        onPdfSelected = { pdfPath ->
+            handlePickerUseCaseResult(scanBarcodeFromPdf(pdfPath))
+        },
+        onError = { useCaseError = it }
+    )
 
     LicenseGuard { checkLicense ->
         Scaffold(topBar = {
@@ -131,7 +154,12 @@ fun BarcodeUseCasesScreen(
                 }
                 MenuItem("Scan from Image") {
                     checkLicense {
-                        showGalleryPicker = true
+                        launchImagePicker()
+                    }
+                }
+                MenuItem("Scan from PDF") {
+                    checkLicense {
+                        launchPdfPicker()
                     }
                 }
                 Spacer(modifier = Modifier.weight(1f))
@@ -141,26 +169,13 @@ fun BarcodeUseCasesScreen(
                 }
             }
 
-            if (showGalleryPicker) {
-                GalleryPicker(allowMultiple = false, onImagesSelected = { images ->
-                    showGalleryPicker = false
-                    scanBarcodeFromImageWithResult(
-                        images.first()
-                    ).onSuccess {
-                        scanFromImageResult = it
-                    }.onFailure {
-                        useCaseError = it
-                    }
-                }, onDismiss = { showGalleryPicker = false })
-            }
-
             if (showLicenseDialog) {
                 LicenseInfoDialog(
                     onDismiss = { showLicenseDialog = false })
             }
 
-            scanFromImageResult?.let { result ->
-                ImageScanningResult(result.barcodes, onDismiss = { scanFromImageResult = null })
+            displayedBarcodeResult?.let { result ->
+                BarcodeResultPreview(result.barcodes, onDismiss = { displayedBarcodeResult = null })
             }
 
             useCaseError?.let {
@@ -172,11 +187,11 @@ fun BarcodeUseCasesScreen(
 }
 
 @Composable
-fun ImageScanningResult(barcodeItems: List<BarcodeItem>, onDismiss: () -> Unit) {
+fun BarcodeResultPreview(barcodeItems: List<BarcodeItem>, onDismiss: () -> Unit) {
     if (barcodeItems.isEmpty()) {
         InfoDialog(
             title = "No barcodes found",
-            text = "No barcodes were detected in the selected image.",
+            text = "No barcodes were detected.",
             onDismiss = onDismiss
         )
     } else {
