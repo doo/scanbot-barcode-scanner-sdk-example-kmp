@@ -21,6 +21,27 @@ fun InfoDialog(
 }
 
 @Composable
+fun ConfirmDialog(
+    title: String,
+    text: String,
+    confirmText: String,
+    onConfirm: () -> Unit,
+    onDismiss: () -> Unit,
+) {
+    AlertDialog(onDismissRequest = onDismiss, title = { Text(title) }, text = {
+        Text(text = text)
+    }, confirmButton = {
+        TextButton(onClick = onConfirm) {
+            Text(confirmText)
+        }
+    }, dismissButton = {
+        TextButton(onClick = onDismiss) {
+            Text("Cancel")
+        }
+    })
+}
+
+@Composable
 fun ErrorDialog(
     title: String = "Error", message: String?, onDismiss: () -> Unit
 ) {

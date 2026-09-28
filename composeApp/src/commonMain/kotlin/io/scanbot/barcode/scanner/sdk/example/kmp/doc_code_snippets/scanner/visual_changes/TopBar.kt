@@ -17,9 +17,10 @@ fun rtuUiTopBarConfiguration(): BarcodeScannerScreenConfiguration {
     val configuration = BarcodeScannerScreenConfiguration().apply {
 
         // Set the top bar mode.
-        topBar.mode = TopBarMode.GRADIENT
+        // Note: GRADIENT and HIDDEN modes are deprecated since v10.0.0. Use SOLID with a fully opaque background color instead.
+        topBar.mode = TopBarMode.SOLID
 
-        // Set the background color which will be used as a gradient.
+        // Set the background color of the top bar.
         topBar.backgroundColor = ScanbotColor("#C8193C")
 
         // Configure the status bar look. If visible - select DARK or LIGHT according to your app's theme color.

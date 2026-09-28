@@ -27,7 +27,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import dev.icerock.moko.permissions.DeniedAlwaysException
+import dev.icerock.moko.permissions.DeniedException
 import dev.icerock.moko.permissions.Permission
+import dev.icerock.moko.permissions.PermissionState
+import dev.icerock.moko.permissions.RequestCanceledException
 import dev.icerock.moko.permissions.camera.CAMERA
 import dev.icerock.moko.permissions.compose.BindEffect
 import dev.icerock.moko.permissions.compose.rememberPermissionsControllerFactory
@@ -39,6 +43,7 @@ import io.scanbot.barcode.scanner.sdk.example.kmp.doc_code_snippets.scanner.comm
 import io.scanbot.barcode.scanner.sdk.example.kmp.doc_code_snippets.scanner.common_use_cases.startMultiScanning
 import io.scanbot.barcode.scanner.sdk.example.kmp.doc_code_snippets.scanner.common_use_cases.startScanAndCount
 import io.scanbot.barcode.scanner.sdk.example.kmp.doc_code_snippets.scanner.common_use_cases.startSingleScanning
+import io.scanbot.barcode.scanner.sdk.example.kmp.ui.common.ConfirmDialog
 import io.scanbot.barcode.scanner.sdk.example.kmp.ui.common.ErrorDialog
 import io.scanbot.barcode.scanner.sdk.example.kmp.ui.common.Footer
 import io.scanbot.barcode.scanner.sdk.example.kmp.ui.common.InfoDialog
@@ -69,6 +74,20 @@ fun BarcodeUseCasesScreen(
     BindEffect(controller)
 
     var showLicenseDialog by rememberSaveable { mutableStateOf(false) }
+    var cameraPermissionPrompt by remember { mutableStateOf<CameraPermissionPrompt?>(null) }
+
+    val requestCameraPermission: suspend () -> Unit = {
+        try {
+            controller.providePermission(Permission.CAMERA)
+            navigateToBarcodeCustomUI()
+        } catch (_: DeniedAlwaysException) {
+            cameraPermissionPrompt = CameraPermissionPrompt.OpenSettings
+        } catch (_: DeniedException) {
+            useCaseError = IllegalStateException("Camera permission is required to use the Barcode Custom UI.")
+        } catch (_: RequestCanceledException) {
+            // The request was dismissed, nothing to do.
+        }
+    }
 
     val handlePickerUseCaseResult: (Result<BarcodeScannerResult>) -> Unit = { result ->
         result.onSuccess {
@@ -141,13 +160,13 @@ fun BarcodeUseCasesScreen(
                 MenuItem("Barcode Custom UI") {
                     checkLicense {
                         coroutineScope.launch {
-                            try {
-                                if (!controller.isPermissionGranted(Permission.CAMERA)) {
-                                    controller.providePermission(Permission.CAMERA)
-                                }
-                                navigateToBarcodeCustomUI()
-                            } catch (e: Exception) {
-                                println("Camera permission error: ${e.message}")
+                            when (controller.getPermissionState(Permission.CAMERA)) {
+                                PermissionState.Granted -> navigateToBarcodeCustomUI()
+                                // Previously denied: explain why the permission is needed before asking again.
+                                PermissionState.Denied -> cameraPermissionPrompt = CameraPermissionPrompt.Rationale
+                                // Permanently denied: the system won't show the dialog again, only the settings can help.
+                                PermissionState.DeniedAlways -> cameraPermissionPrompt = CameraPermissionPrompt.OpenSettings
+                                else -> requestCameraPermission()
                             }
                         }
                     }
@@ -182,9 +201,35 @@ fun BarcodeUseCasesScreen(
                 ErrorDialog(
                     message = it.message, onDismiss = { useCaseError = null })
             }
+
+            when (cameraPermissionPrompt) {
+                CameraPermissionPrompt.Rationale -> ConfirmDialog(
+                    title = "Camera permission",
+                    text = "The Barcode Custom UI needs access to the camera to scan barcodes.",
+                    confirmText = "Continue",
+                    onConfirm = {
+                        cameraPermissionPrompt = null
+                        coroutineScope.launch { requestCameraPermission() }
+                    },
+                    onDismiss = { cameraPermissionPrompt = null })
+
+                CameraPermissionPrompt.OpenSettings -> ConfirmDialog(
+                    title = "Camera permission",
+                    text = "Camera access was denied. Enable it in the app settings to use the Barcode Custom UI.",
+                    confirmText = "Open settings",
+                    onConfirm = {
+                        cameraPermissionPrompt = null
+                        controller.openAppSettings()
+                    },
+                    onDismiss = { cameraPermissionPrompt = null })
+
+                null -> Unit
+            }
         }
     }
 }
+
+private enum class CameraPermissionPrompt { Rationale, OpenSettings }
 
 @Composable
 fun BarcodeResultPreview(barcodeItems: List<BarcodeItem>, onDismiss: () -> Unit) {
