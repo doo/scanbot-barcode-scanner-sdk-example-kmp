@@ -40,7 +40,7 @@ fun rtuUiMappingItemScanningUseCase(): BarcodeScannerScreenConfiguration {
             // Configure other parameters as needed.
         }
     }
-    return configuration;
+    return configuration
 }
 
 fun startMappingItemScanning(

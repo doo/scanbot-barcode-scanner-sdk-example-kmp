@@ -42,7 +42,7 @@ fun rtuUiFindAndPickScanningUseCase(): BarcodeScannerScreenConfiguration {
 
             // Configure the submit button.
             sheetContent.submitButton.text = "Submit"
-            sheetContent.submitButton.foreground.color = ScanbotColor("#000000");
+            sheetContent.submitButton.foreground.color = ScanbotColor("#000000")
 
             // Configure other parameters, pertaining to findAndPick-scanning mode as needed.
             // Set the expected barcodes.
@@ -65,7 +65,7 @@ fun rtuUiFindAndPickScanningUseCase(): BarcodeScannerScreenConfiguration {
         // Configure other parameters as needed.
     }
 
-    return configuration;
+    return configuration
 }
 
 fun startFindAndPickScanning(

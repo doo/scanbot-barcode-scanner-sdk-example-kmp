@@ -11,7 +11,7 @@ import io.scanbot.sdk.kmp.ui_v2.barcode.configuration.BarcodeScannerScreenConfig
 // @Tag("Scanning tiny barcodes")
 fun scanTinyBarcodes() {
     // Create the default configuration object.
-    val config = BarcodeScannerScreenConfiguration();
+    val config = BarcodeScannerScreenConfiguration()
 
     // Enable locking the focus at the minimum possible distance.
     config.cameraConfiguration.minFocusDistanceLock = true

@@ -29,7 +29,7 @@ fun basicInitialization() {
     // @EndTag("Basic initialization")
 }
 
-fun settingLicenseKye() {
+fun settingLicenseKey() {
     // @Tag("Setting license key")
     val LICENSE_KEY = "YOUR_SCANBOT_SDK_LICENSE_KEY"
 
