@@ -1,21 +1,12 @@
 package io.scanbot.barcode.scanner.sdk.example.kmp.ui
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Card
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -26,7 +17,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
 import dev.icerock.moko.permissions.DeniedAlwaysException
 import dev.icerock.moko.permissions.DeniedException
 import dev.icerock.moko.permissions.Permission
@@ -53,18 +43,20 @@ import io.scanbot.barcode.scanner.sdk.example.kmp.ui.common.MenuItem
 import io.scanbot.barcode.scanner.sdk.example.kmp.ui.common.TopBar
 import io.scanbot.barcode.scanner.sdk.example.kmp.ui.common.rememberImagePickerLauncher
 import io.scanbot.barcode.scanner.sdk.example.kmp.ui.common.rememberPdfPickerLauncher
-import io.scanbot.sdk.kmp.barcode.BarcodeItem
 import io.scanbot.sdk.kmp.barcode.BarcodeScannerResult
+import io.scanbot.sdk.kmp.ui_v2.barcode.configuration.BarcodeScannerUiItem
 import io.scanbot.sdk.kmp.ui_v2.barcode.configuration.BarcodeScannerUiResult
 import io.scanbot.sdk.kmp.utils.Result
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @Composable
 fun BarcodeUseCasesScreen(
     onResultPreview: (BarcodeScannerUiResult) -> Unit,
     navigateToBarcodeCustomUI: () -> Unit,
 ) {
-    var displayedBarcodeResult by remember { mutableStateOf<BarcodeScannerResult?>(null) }
+    var showNoBarcodesFound by remember { mutableStateOf(false) }
     var useCaseError by remember { mutableStateOf<Throwable?>(null) }
     val coroutineScope = rememberCoroutineScope()
 
@@ -76,7 +68,7 @@ fun BarcodeUseCasesScreen(
     var showLicenseDialog by rememberSaveable { mutableStateOf(false) }
     var cameraPermissionPrompt by remember { mutableStateOf<CameraPermissionPrompt?>(null) }
 
-    val requestCameraPermission: suspend () -> Unit = {
+    suspend fun requestCameraPermission() {
         try {
             controller.providePermission(Permission.CAMERA)
             navigateToBarcodeCustomUI()
@@ -89,9 +81,14 @@ fun BarcodeUseCasesScreen(
         }
     }
 
-    val handlePickerUseCaseResult: (Result<BarcodeScannerResult>) -> Unit = { result ->
+    fun handlePickerUseCaseResult(result: Result<BarcodeScannerResult>) {
         result.onSuccess {
-            displayedBarcodeResult = it
+            if (it.barcodes.isEmpty()) {
+                showNoBarcodesFound = true
+            } else {
+                val items = it.barcodes.map { barcode -> BarcodeScannerUiItem(barcode, count = 1) }
+                onResultPreview(BarcodeScannerUiResult(items = items))
+            }
         }.onFailure({ useCaseError = it })
     }
 
@@ -105,7 +102,8 @@ fun BarcodeUseCasesScreen(
 
     val launchPdfPicker = rememberPdfPickerLauncher(
         onPdfSelected = { pdfPath ->
-            handlePickerUseCaseResult(scanBarcodeFromPdf(pdfPath))
+            val result = withContext(Dispatchers.Default) { scanBarcodeFromPdf(pdfPath) }
+            handlePickerUseCaseResult(result)
         },
         onError = { useCaseError = it }
     )
@@ -193,8 +191,11 @@ fun BarcodeUseCasesScreen(
                     onDismiss = { showLicenseDialog = false })
             }
 
-            displayedBarcodeResult?.let { result ->
-                BarcodeResultPreview(result.barcodes, onDismiss = { displayedBarcodeResult = null })
+            if (showNoBarcodesFound) {
+                InfoDialog(
+                    title = "No barcodes found",
+                    text = "No barcodes were detected.",
+                    onDismiss = { showNoBarcodesFound = false })
             }
 
             useCaseError?.let {
@@ -230,42 +231,3 @@ fun BarcodeUseCasesScreen(
 }
 
 private enum class CameraPermissionPrompt { Rationale, OpenSettings }
-
-@Composable
-fun BarcodeResultPreview(barcodeItems: List<BarcodeItem>, onDismiss: () -> Unit) {
-    if (barcodeItems.isEmpty()) {
-        InfoDialog(
-            title = "No barcodes found",
-            text = "No barcodes were detected.",
-            onDismiss = onDismiss
-        )
-    } else {
-        Dialog(onDismissRequest = onDismiss) {
-            Card(
-                modifier = Modifier.fillMaxWidth().padding(16.dp),
-                shape = RoundedCornerShape(16.dp),
-            ) {
-                Text(
-                    "Scanned Barcodes",
-                    modifier = Modifier.padding(16.dp),
-                    style = MaterialTheme.typography.titleLarge
-                )
-
-                BarcodeItemsPreview(
-                    modifier = Modifier.heightIn(max = 350.dp), items = barcodeItems
-                )
-
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.End,
-                ) {
-                    TextButton(
-                        onClick = onDismiss, modifier = Modifier.padding(8.dp)
-                    ) {
-                        Text("Close")
-                    }
-                }
-            }
-        }
-    }
-}
