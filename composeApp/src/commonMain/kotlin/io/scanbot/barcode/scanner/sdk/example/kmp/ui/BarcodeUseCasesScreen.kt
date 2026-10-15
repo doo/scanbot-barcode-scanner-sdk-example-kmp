@@ -57,8 +57,8 @@ import kotlinx.coroutines.withContext
 fun BarcodeUseCasesScreen(
     onResultPreview: (BarcodeScannerUiResult) -> Unit,
     navigateToBarcodeCustomUI: () -> Unit,
-    viewModel: BarcodeUseCasesViewModel = viewModel { BarcodeUseCasesViewModel() },
 ) {
+    val viewModel = viewModel { BarcodeUseCasesViewModel() }
     var showNoBarcodesFound by remember { mutableStateOf(false) }
     val coroutineScope = rememberCoroutineScope()
 
