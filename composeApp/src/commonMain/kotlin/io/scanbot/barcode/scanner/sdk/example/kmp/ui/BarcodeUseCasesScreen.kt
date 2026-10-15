@@ -8,6 +8,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -17,6 +18,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.icerock.moko.permissions.DeniedAlwaysException
 import dev.icerock.moko.permissions.DeniedException
 import dev.icerock.moko.permissions.Permission
@@ -56,9 +58,16 @@ fun BarcodeUseCasesScreen(
     onResultPreview: (BarcodeScannerUiResult) -> Unit,
     navigateToBarcodeCustomUI: () -> Unit,
 ) {
+    val viewModel = viewModel { BarcodeUseCasesViewModel() }
     var showNoBarcodesFound by remember { mutableStateOf(false) }
-    var useCaseError by remember { mutableStateOf<Throwable?>(null) }
     val coroutineScope = rememberCoroutineScope()
+
+    LaunchedEffect(viewModel.scanResult) {
+        viewModel.scanResult?.let { result ->
+            viewModel.onScanResultHandled()
+            onResultPreview(result)
+        }
+    }
 
     val factory = rememberPermissionsControllerFactory()
     val controller = remember(factory) { factory.createPermissionsController() }
@@ -75,7 +84,7 @@ fun BarcodeUseCasesScreen(
         } catch (_: DeniedAlwaysException) {
             cameraPermissionPrompt = CameraPermissionPrompt.OpenSettings
         } catch (_: DeniedException) {
-            useCaseError = IllegalStateException("Camera permission is required to use the Barcode Custom UI.")
+            viewModel.onError(IllegalStateException("Camera permission is required to use the Barcode Custom UI."))
         } catch (_: RequestCanceledException) {
             // The request was dismissed, nothing to do.
         }
@@ -89,7 +98,7 @@ fun BarcodeUseCasesScreen(
                 val items = it.barcodes.map { barcode -> BarcodeScannerUiItem(barcode, count = 1) }
                 onResultPreview(BarcodeScannerUiResult(items = items))
             }
-        }.onFailure({ useCaseError = it })
+        }.onFailure(viewModel::onError)
     }
 
     val launchImagePicker = rememberImagePickerLauncher(
@@ -97,7 +106,7 @@ fun BarcodeUseCasesScreen(
         onImagesSelected = { images ->
             handlePickerUseCaseResult(scanBarcodeFromImageWithResult(images.first()))
         },
-        onError = { useCaseError = it }
+        onError = viewModel::onError
     )
 
     val launchPdfPicker = rememberPdfPickerLauncher(
@@ -105,7 +114,7 @@ fun BarcodeUseCasesScreen(
             val result = withContext(Dispatchers.Default) { scanBarcodeFromPdf(pdfPath) }
             handlePickerUseCaseResult(result)
         },
-        onError = { useCaseError = it }
+        onError = viewModel::onError
     )
 
     LicenseGuard { checkLicense ->
@@ -122,37 +131,37 @@ fun BarcodeUseCasesScreen(
                 MenuItem("Single Scan with confirmation") {
                     checkLicense {
                         startSingleScanning(
-                            onResultPreview, onErrorHandler = { useCaseError = it })
+                            viewModel::onScanResult, onErrorHandler = viewModel::onError)
                     }
                 }
                 MenuItem("Multiple Scan") {
                     checkLicense {
                         startMultiScanning(
-                            onResultPreview, onErrorHandler = { useCaseError = it })
+                            viewModel::onScanResult, onErrorHandler = viewModel::onError)
                     }
                 }
                 MenuItem("Scan and Count") {
                     checkLicense {
                         startScanAndCount(
-                            onResultPreview, onErrorHandler = { useCaseError = it })
+                            viewModel::onScanResult, onErrorHandler = viewModel::onError)
                     }
                 }
                 MenuItem("Find and Pick") {
                     checkLicense {
                         startFindAndPickScanning(
-                            onResultPreview, onErrorHandler = { useCaseError = it })
+                            viewModel::onScanResult, onErrorHandler = viewModel::onError)
                     }
                 }
                 MenuItem("Multiple Scan With AR Overlay") {
                     checkLicense {
                         startArOverlayScanning(
-                            onResultPreview, onErrorHandler = { useCaseError = it })
+                            viewModel::onScanResult, onErrorHandler = viewModel::onError)
                     }
                 }
                 MenuItem("Multiple Scan with Info Mapping") {
                     checkLicense {
                         startMappingItemScanning(
-                            onResultPreview, onErrorHandler = { useCaseError = it })
+                            viewModel::onScanResult, onErrorHandler = viewModel::onError)
                     }
                 }
                 MenuItem("Barcode Custom UI") {
@@ -198,9 +207,9 @@ fun BarcodeUseCasesScreen(
                     onDismiss = { showNoBarcodesFound = false })
             }
 
-            useCaseError?.let {
+            viewModel.error?.let {
                 ErrorDialog(
-                    message = it.message, onDismiss = { useCaseError = null })
+                    message = it.message, onDismiss = viewModel::onErrorDismissed)
             }
 
             when (cameraPermissionPrompt) {
