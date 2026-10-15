@@ -5,7 +5,7 @@ android-targetSdk = "36"
 android-minSdk = "26"
 
 # Core tooling
-agp = "8.13.1"
+agp = "8.13.2"
 kotlin = "2.4.10"
 
 compose-multiplatform = "1.10.2"
@@ -31,7 +31,7 @@ moko = "0.20.1"
 imagepickerkmp = "1.0.32"
 
 # Build plugins
-spm = "1.9.2"
+spm = "1.9.7"
 
 # FileKit
 filekit = "0.15.0"
