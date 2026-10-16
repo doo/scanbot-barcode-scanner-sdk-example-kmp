@@ -30,7 +30,7 @@ kotlin {
         }
 
         iosTarget.swiftPackageConfig {
-            minIos = "13.0"
+            minIos = "15.0"
             dependency {
                 remotePackageVersion(
                     url = uri("https://github.com/doo/scanbot-barcode-scanner-sdk-ios-spm.git"),
@@ -56,6 +56,8 @@ kotlin {
             implementation(libs.compose.components.resources)
             implementation(libs.compose.components.uitoolingpreview)
             implementation(libs.compose.material.icons.extended)
+            implementation(libs.filekit.core)
+            implementation(libs.filekit.dialogs.compose)
 
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.androidx.lifecycle.viewmodel.compose)
