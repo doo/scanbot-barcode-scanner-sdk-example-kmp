@@ -21,10 +21,10 @@ navigation-compose = "2.9.2"
 kotlinx-serialization = "1.10.0"
 
 # Scanbot SDK
-scanbotSDK = "10.0.0.112-SNAPSHOT"
+scanbotSDK = "10.0.0.113-SNAPSHOT"
 
 # Native dependencies
-scanbot-sdk-ios-barcode = "10.0.1-RC4"
+scanbot-sdk-ios-barcode = "10.0.1"
 
 # Third‑party libs
 moko = "0.20.1"
