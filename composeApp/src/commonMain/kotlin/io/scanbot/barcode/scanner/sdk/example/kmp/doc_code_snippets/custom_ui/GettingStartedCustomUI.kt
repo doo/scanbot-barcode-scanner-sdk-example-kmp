@@ -141,7 +141,7 @@ fun AdvancedBarcodeScannerConfiguration() {
         stripCheckDigits = false,
         minimumTextLength = 0,
         maximumTextLength = 0,
-        checksum = true
+        useCheckDigits = true
     )
     configs.add(code11Config)
 
@@ -308,7 +308,9 @@ fun CustomBarcodeOverlayExample() {
 fun HandleBarcodeScanResults() {
     // @Tag("Handling the Result")
     BarcodeScannerCustomUI(
-        modifier = Modifier.fillMaxSize(), onBarcodesDetected = { barcodes ->
+        modifier = Modifier.fillMaxSize(),
+        scannerConfiguration = BarcodeScannerConfiguration(),
+        onBarcodesDetected = { barcodes ->
             barcodes.forEach { barcodeItem ->
                 // Handle the detected barcode(s) from result
                 val barcodeText = barcodeItem.text

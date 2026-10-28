@@ -38,7 +38,7 @@ class BarcodeResultHandlingSnippets {
             // The barcodeItem contains the scanned barcode data as ByteArray
             val barcodeRawData = barcodeItem.rawBytes
 
-            // This is the image of the barcode that was scanned (SDK's internal representation)
+            // This is the image of the barcode that was scanned (only if returnBarcodeImage was enabled)
             val barcodeImage = barcodeItem.sourceImage
         }
         // @EndTag("Handling barcode result")
@@ -167,6 +167,7 @@ class BarcodeResultHandlingSnippets {
     fun handleBarcodeImageResult(imageRef: ImageRef) {
         // @Tag("Handle barcode image result")
         val configuration = BarcodeScannerConfiguration()
+
         val result = ScanbotSDK.barcode.scanFromImage(
             image = imageRef, configuration = configuration
         )

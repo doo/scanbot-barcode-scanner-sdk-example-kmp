@@ -35,7 +35,7 @@ fun rtuUiMultipleScanningPreviewConfig(): BarcodeScannerScreenConfiguration {
         localization.cameraPermissionCloseButton = "Custom Close title"
         // Configure other strings as needed.
 
-        // Configure other parameters
+        // Configure other parameters as needed.
     }
     return config
 }
